@@ -1,5 +1,5 @@
-$:.push '../lib/page'
 require 'base_page'
+require 'user_bar'
 
 class LoginPage < BasePage
   PAGE_URL = '/user?destination=vo'
@@ -22,10 +22,13 @@ class LoginPage < BasePage
     wait_for { displayed?(PASSWORD_BOX) }
   end
 
-  def login_with(username = '', password = '')
-    type LOGIN_ID_BOX, username
-    type PASSWORD_BOX, password
-    click_on LOGIN_BUTTON
+  def valid_login(username, password)
+    login_with(username, password)
+    UserBar.new(driver)
+  end
+
+  def error_login(username = '', password = '')
+    login_with(username, password)
   end
 
   def error_alert_present?
@@ -38,6 +41,18 @@ class LoginPage < BasePage
 
   def password_box_error_present?
     wait_for(5) { displayed?(PASSWORD_ERROR) }
+  end
+
+  private
+
+  def login_with(username, password)
+    unless username.empty?
+      type LOGIN_ID_BOX, username
+    end
+    unless password.empty?
+      type PASSWORD_BOX, password
+    end
+    click_on LOGIN_BUTTON
   end
 
 end
