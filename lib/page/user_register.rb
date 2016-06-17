@@ -1,5 +1,6 @@
 $:.push '../lib/page'
 require 'base_page'
+require 'user_bar'
 
 class UserRegister < BasePage
   PAGE_URL = '/user/register'
@@ -36,6 +37,41 @@ class UserRegister < BasePage
     wait_for { displayed?(CREATE_NEW_ACCOUNT_BTN) }
   end
 
+  def create_valid_account(info = {})
+    submit_customer info
+    UserBar.new(driver)
+  end
+
+  def error_create_account(info = {})
+    submit_customer(info)
+  end
+
+  def submit_form
+    click_on CREATE_NEW_ACCOUNT_BTN
+  end
+
+  def is_email_error_present?
+    wait_for(5) { displayed?(EMAIL_BOX_ERROR) }
+  end
+
+  def is_password_error_present?
+    wait_for(5) { displayed?(PASSWORD_BOX_ERROR) }
+  end
+
+  def is_confirm_password_error_present?
+    wait_for(5) { displayed?(CONFIRM_PASSWORD_BOX_ERROR) }
+  end
+
+  def is_accept_cbox_error_present?
+    wait_for(5) { displayed?(ACCEPT_CHECKBOX_ERROR) }
+  end
+
+  def is_error_alert_present?
+    wait_for(5) { displayed?(ERROR_ALERT) }
+  end
+
+  private
+
   def submit_customer(info = {})
     unless info.class == Hash
       raise 'Submit Customer method requires a Hash.'
@@ -68,39 +104,15 @@ class UserRegister < BasePage
       type GUARDIAN_FIRST_BOX, info[:guardian_first]
     end
     if info.has_key?(:guardian_middle)
-      type GUARDIAN_FIRST_BOX, info[:guardian_middle]
+      type GUARDIAN_MIDDLE_BOX, info[:guardian_middle]
     end
     if info.has_key?(:guardian_last)
-      type GUARDIAN_FIRST_BOX, info[:guardian_last]
+      type GUARDIAN_LAST_BOX, info[:guardian_last]
     end
     if info.has_key?(:accept) && info[:accept] == true
       click_on ACCEPT_CHECKBOX
     end
     submit_form
-  end
-
-  def submit_form
-    click_on CREATE_NEW_ACCOUNT_BTN
-  end
-
-  def is_email_error_present?
-    wait_for(5) { displayed?(EMAIL_BOX_ERROR) }
-  end
-
-  def is_password_error_present?
-    wait_for(5) { displayed?(PASSWORD_BOX_ERROR) }
-  end
-
-  def is_confirm_password_error_present?
-    wait_for(5) { displayed?(CONFIRM_PASSWORD_BOX_ERROR) }
-  end
-
-  def is_accept_cbox_error_present?
-    wait_for(5) { displayed?(ACCEPT_CHECKBOX_ERROR) }
-  end
-
-  def is_error_alert_present?
-    wait_for(5) { displayed?(ERROR_ALERT) }
   end
 
 end
