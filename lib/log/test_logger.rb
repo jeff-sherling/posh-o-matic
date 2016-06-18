@@ -2,14 +2,13 @@ require 'logger'
 
 class TestLogger
 
-  def log_info
-    log = Logger.new(STDOUT)
-    log.info("Here is an info message.")
-  end
-
-  def log_debug
-    log = Logger.new(STDOUT)
-    log.debug("This is a debug message.")
+  def self.log
+    if @logger.nil?
+      @logger = Logger.new STDOUT
+      @logger.level = Logger::DEBUG
+      @logger.datetime_format = '%Y-%m-%d %H:%M:%S '
+    end
+    @logger
   end
 
 end

@@ -10,6 +10,12 @@ class RandomCustomer
     get_minor
   end
 
+  def get_missing_minor_guardian
+    missing = get_minor
+    missing.delete(:guardian_last)
+    missing
+  end
+
   def get_mismatched_passwords
     mismatched = get_customer
     mismatched[:confirm] = 'def456'
@@ -33,8 +39,8 @@ class RandomCustomer
   def get_customer
     customer = get_common
     customer[:birth_year] = (1936 + rand(max = 66)).to_s
-    customer[:birth_month] = (rand(max = 13)).to_s
-    customer[:birth_day] = (rand(max = 29)).to_s
+    customer[:birth_month] = (1 + rand(max = 12)).to_s
+    customer[:birth_day] = (1 + rand(max = 28)).to_s
     customer
   end
 
