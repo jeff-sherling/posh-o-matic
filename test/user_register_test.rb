@@ -17,7 +17,7 @@ class UserRegisterTest < BaseTest
     @driver.quit
   end
 
-  def test_field_errors_with_empty_form_submit
+  def test_errors_with_empty_form_submit
     @user_register.submit_form
     assert(@user_register.is_email_error_present? &&
           @user_register.is_password_error_present? &&
@@ -41,7 +41,7 @@ class UserRegisterTest < BaseTest
     assert(@user_register.is_error_alert_present?, 'Error alert is not present.')
   end
 
-  def test_error_empty_guardian_name_with_minor
+  def test_error_missing_guardian_name_with_minor
     @user_register.error_create_account(@random_customer.get_missing_minor_guardian)
     assert(@user_register.is_error_alert_present?, 'Error alert is not present.')
   end

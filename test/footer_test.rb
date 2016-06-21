@@ -1,11 +1,11 @@
 $:.push '../lib/page'
-require 'footer'
+require 'footer_social'
 require_relative 'base_test'
 
 class FooterTest
   def setup
     @driver = Selenium::WebDriver.for :firefox
-    @footer = Footer.new(@driver)
+    @footer = FooterSocial.new(@driver)
   end
 
   def teardown

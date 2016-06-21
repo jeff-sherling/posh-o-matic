@@ -1,20 +1,20 @@
 $:.push '../lib/page'
 require 'base_page'
+#require 'landing_page'
 
 class UserBar < BasePage
 
-  # Locators
-  # Logged in & public
-  BECOME_CONSULTANT = { :css => ".block__top-consultant-menu a[href='/join']" }
+  # Logged in & public locators
   MY_ACCOUNT = { :id => 'myaccount--link' }
-  CART_LINK = { :css => "#block-posh-cart-notifications-cart-notifications-nav a[href$='/cart']" }
-  CART_QUANTITY = { :css => '.fa-shopping-cart > .cart-qty' }
 
-  # Logged in only
+  # Logged in only locators
   REFERRAL_LINK = { :id => 'perks-referral-button' }
 
-  # Public only
-  FIND_CONSULTANT = { :css => ".block__top-consultant-menu a[href='/find']" }
+  # Public only locators
+  FIND_CONSULTANT = { :css => "a[href='/find']" }
+
+  # MY ACCOUNT submenu items
+  LOGOUT = { :css => ".mm-page a[href$='/user/logout']" }
 
   def initialize(driver)
     super(driver)
@@ -25,12 +25,15 @@ class UserBar < BasePage
     wait_for(5) { displayed?(REFERRAL_LINK) }
   end
 
-  def get_cart_count
-    text_of CART_QUANTITY
+  def is_find_consultant_link_present?
+    wait_for(5) { displayed?(FIND_CONSULTANT) }
   end
 
   def log_out
     click_on MY_ACCOUNT
+    wait_for(5) { displayed?(LOGOUT) }
+    click_on LOGOUT
+    #UserBar.new(driver)
   end
 
 end

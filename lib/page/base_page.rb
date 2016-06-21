@@ -1,5 +1,7 @@
-$:.push '../page'
+$:.push '../lib/page'
 require 'selenium-webdriver'
+$:.push '../lib/log'
+require 'test_logger'
 
 class BasePage
   attr_reader :driver
@@ -8,8 +10,9 @@ class BasePage
     @driver = driver
   end
 
-  # Visit page URL; ENV is defined in test file
   def visit(url = '/')
+    # Visit page URL; ENV is defined in test file
+    TestLogger.log.info "Navigating to URL: #{url}."
     @driver.get(ENV['base_url'] + url)
   end
 
@@ -17,21 +20,25 @@ class BasePage
     @driver.find_element locator
   end
 
-  # Returns array of elements matching locator
   def find_elements(locator)
+    # Returns array of elements matching locator
+    TestLogger.log.info "Getting locator array: #{locator}."
     @driver.find_elements locator
   end
 
   # Clear text field
   def clear(locator)
+    TestLogger.log.info "Clearing: #{locator}."
     find(locator).clear
   end
 
   def type(locator, input)
+    TestLogger.log.info "Sending: '#{input}' to: #{locator}."
     find(locator).send_keys input
   end
 
   def click_on(locator)
+    TestLogger.log.info "Clicking: #{locator}."
     find(locator).click
   end
 
@@ -39,6 +46,7 @@ class BasePage
     @driver.find_element(locator).displayed?
     true
     rescue Selenium::WebDriver::Error::NoSuchElementError
+      TestLogger.log.info "Element not displayed: #{locator}."
       false
   end
 
@@ -54,10 +62,10 @@ class BasePage
     @driver.current_url
   end
 
-  # TODO: 'method' is overloaded term
   def select_dropdown(locator, option, method=:value)
     web_element = @driver.find_element(locator)
     select_list = Selenium::WebDriver::Support::Select.new(web_element)
+    TestLogger.log.info "Select list: #{locator}; option: #{option}; method: #{method}"
     select_list.select_by(method, option)
   end
 
