@@ -1,3 +1,4 @@
+$:.push '../lib/page'
 require 'base_page'
 require 'user_bar'
 
@@ -18,7 +19,7 @@ class LoginPage < BasePage
 
   def initialize(driver)
     super(driver)
-    visit(PAGE_URL)
+    visit PAGE_URL
     wait_for { displayed?(PASSWORD_BOX) }
   end
 
