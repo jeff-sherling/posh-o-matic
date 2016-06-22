@@ -1,7 +1,7 @@
 $:.push '../lib/page'
 require 'base_page'
 
-class Ingredients < BasePage
+class IngredientsPage < BasePage
   PAGE_URL = '/ingredients'
 
   # locators

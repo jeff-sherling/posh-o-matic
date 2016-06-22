@@ -1,7 +1,7 @@
 $:.push '../lib/page'
 require 'base_page'
 
-class CompanyAbout < BasePage
+class CompanyAboutPage < BasePage
   PAGE_URL = '/company-about'
 
   # locators
