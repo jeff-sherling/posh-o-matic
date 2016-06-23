@@ -2,7 +2,7 @@ $:.push '../lib/page'
 require 'base_page'
 require 'user_bar'
 
-class UserRegister < BasePage
+class UserRegisterPage < BasePage
   PAGE_URL = '/user/register'
 
   # locators

@@ -1,14 +1,14 @@
 $:.push '../lib/page'
 $:.push '../lib/data'
-require 'user_register'
+require 'user_register_page'
 require 'random_customer'
 require_relative 'base_test'
 
-class UserRegisterTest < BaseTest
+class UserRegisterPageTest < BaseTest
 
   def setup
     @driver = Selenium::WebDriver.for :firefox
-    @user_register = UserRegister.new(@driver)
+    @user_register = UserRegisterPage.new(@driver)
     @random_customer = RandomCustomer.new
     @user_bar = UserBar.new(@driver)
   end
@@ -23,7 +23,7 @@ class UserRegisterTest < BaseTest
           @user_register.is_password_error_present? &&
           @user_register.is_confirm_password_error_present? &&
           @user_register.is_accept_cbox_error_present?,
-           'Field error highlights are not present.')
+           'One or more field errors are not present.')
   end
 
   def test_error_alert_with_missing_name
@@ -41,7 +41,7 @@ class UserRegisterTest < BaseTest
     assert(@user_register.is_error_alert_present?, 'Error alert is not present.')
   end
 
-  def test_error_missing_guardian_name_with_minor
+  def test_error_with_minor_missing_guardian_name
     @user_register.error_create_account(@random_customer.get_missing_minor_guardian)
     assert(@user_register.is_error_alert_present?, 'Error alert is not present.')
   end
