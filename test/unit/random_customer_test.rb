@@ -1,4 +1,4 @@
-$:.push '../lib/data'
+$:.push '../../lib/data'
 require 'random_customer'
 require 'minitest/autorun'
 
