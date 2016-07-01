@@ -1,4 +1,3 @@
-$:.push '../lib/page'
 require 'base_page'
 require 'user_bar'
 
@@ -36,7 +35,7 @@ class LoginPage < BasePage
     wait_for(5) { displayed?(ERROR_ALERT) }
   end
 
-  def login_box_error_present?
+  def login_id_box_error_present?
     wait_for(5) { displayed?(LOGIN_ID_ERROR) }
   end
 

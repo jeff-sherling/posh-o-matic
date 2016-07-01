@@ -72,7 +72,7 @@ class RandomCustomer
 
   def get_email_address
     email = {}
-    email[:email] = 'auto' + get_random_string + '.' + get_random_string + '@mailinator.com'
+    email[:email] = 'auto_' + get_random_string + '.' + get_random_string + '@mailinator.com'
     email
   end
 

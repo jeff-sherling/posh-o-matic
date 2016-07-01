@@ -1,0 +1,2 @@
+class ShoppingCartTest
+end
