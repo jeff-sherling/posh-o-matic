@@ -14,24 +14,24 @@ class LoginErrorTest < BaseTest
   end
 
   def test_error_with_empty_submit_form
-    @login_page.error_login
-    assert(@login_page.login_id_box_error_present? &&
-               @login_page.password_box_error_present?)
+    login_error = @login_page.error_login
+    assert(login_error.login_box_error_present? &&
+               login_error.password_box_error_present?)
   end
 
   def test_error_with_missing_username
-    @login_page.error_login('', 'abc123')
-    assert(@login_page.login_id_box_error_present?)
+    login_error = @login_page.error_login('', 'abc123')
+    assert(login_error.login_box_error_present?)
   end
 
   def test_error_with_missing_password
-    @login_page.error_login('Top Consultant', '')
-    assert(@login_page.password_box_error_present?)
+    login_error = @login_page.error_login('Top Consultant', '')
+    assert(login_error.password_box_error_present?)
   end
 
   def test_error_with_invalid_credentials
-    @login_page.error_login('zzzzzzzzz999999999', 'abc123')
-    assert(@login_page.error_alert_present?)
+    login_error = @login_page.error_login('zzzzzzzzz999999999', 'abc123')
+    assert(login_error.error_alert_present?)
   end
 
 end

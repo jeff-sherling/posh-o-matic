@@ -1,5 +1,6 @@
 require 'base_page'
 require 'user_bar'
+require 'login_error_page'
 
 class LoginPage < BasePage
   PAGE_URL = '/user?destination=vo'
@@ -10,9 +11,6 @@ class LoginPage < BasePage
   LOGIN_BUTTON = { :id => 'edit-submit' }
 
   STATUS_ALERT = { :css => '.messages--status' }
-  ERROR_ALERT = { :css => '.messages--error' }
-  LOGIN_ID_ERROR = { :css => ".error[for='edit-name']" }
-  PASSWORD_ERROR = { :css => ".error[for='edit-pass']" }
 
   CREATE_NEW_ACCOUNT = { :css => "a[href$='/user/register']" }
   REQUEST_NEW_PASSWORD = { :css => "a[href$='/user/password']" }
@@ -30,22 +28,11 @@ class LoginPage < BasePage
 
   def error_login(username = '', password = '')
     login_with(username, password)
+    LoginErrorPage.new(driver)
   end
 
   def status_alert_present?
     wait_for(5) { displayed?(STATUS_ALERT) }
-  end
-
-  def error_alert_present?
-    wait_for(5) { displayed?(ERROR_ALERT) }
-  end
-
-  def login_id_box_error_present?
-    wait_for(5) { displayed?(LOGIN_ID_ERROR) }
-  end
-
-  def password_box_error_present?
-    wait_for(5) { displayed?(PASSWORD_ERROR) }
   end
 
   private
