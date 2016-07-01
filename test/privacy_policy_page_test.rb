@@ -15,10 +15,10 @@ class PrivacyPolicyPageTest < BaseTest
 
   def test_page_header_is_privacy_policy
     assert(@privacy_policy.get_page_header_text.downcase.include?('privacy policy'),
-           "Page header should be 'privacy policy' but is #{@privacy_policy.get_page_header_text}.")
+           'Page header should be Privacy Policy.')
   end
 
-  def test_page_title
+  def test_privacy_policy_title
     assert(@privacy_policy.title.include?('Privacy Policy'))
   end
 

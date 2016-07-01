@@ -26,7 +26,8 @@ class IngredientsPageTest < BaseTest
   end
 
   def test_title_includes_ingredients_page
-    assert(@ingredients.title.include?('Ingredients Page'), 'Page title should include Ingredients')
+    assert(@ingredients.title.include?('Ingredients Page'),
+           'Page title should include Ingredients')
   end
 
 end

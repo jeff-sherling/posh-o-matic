@@ -1,4 +1,3 @@
-$:.push '../lib/page'
 require 'base_page'
 
 class CompanyAboutPage < BasePage
