@@ -1,5 +1,3 @@
-$:.push '../data'
-
 class RandomCustomer
 
   def get_valid_customer

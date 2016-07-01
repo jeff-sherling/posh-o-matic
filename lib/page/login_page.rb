@@ -9,6 +9,7 @@ class LoginPage < BasePage
   PASSWORD_BOX = { :id => 'edit-pass' }
   LOGIN_BUTTON = { :id => 'edit-submit' }
 
+  STATUS_ALERT = { :css => '.messages--status' }
   ERROR_ALERT = { :css => '.messages--error' }
   LOGIN_ID_ERROR = { :css => ".error[for='edit-name']" }
   PASSWORD_ERROR = { :css => ".error[for='edit-pass']" }
@@ -16,9 +17,9 @@ class LoginPage < BasePage
   CREATE_NEW_ACCOUNT = { :css => "a[href$='/user/register']" }
   REQUEST_NEW_PASSWORD = { :css => "a[href$='/user/password']" }
 
-  def initialize(driver)
+  def initialize(driver, nav = true)
     super(driver)
-    visit PAGE_URL
+    visit PAGE_URL if nav
     wait_for { displayed?(PASSWORD_BOX) }
   end
 
@@ -29,6 +30,10 @@ class LoginPage < BasePage
 
   def error_login(username = '', password = '')
     login_with(username, password)
+  end
+
+  def status_alert_present?
+    wait_for(5) { displayed?(STATUS_ALERT) }
   end
 
   def error_alert_present?
