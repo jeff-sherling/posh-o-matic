@@ -1,0 +1,2 @@
+class JoinSignupStep2
+end

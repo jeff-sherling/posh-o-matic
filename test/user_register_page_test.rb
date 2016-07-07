@@ -1,7 +1,7 @@
 $:.push '../lib/page'
 $:.push '../lib/data'
 require 'user_register_page'
-require 'random_customer'
+require 'customer'
 require_relative 'base_test'
 
 class UserRegisterPageTest < BaseTest
@@ -9,7 +9,7 @@ class UserRegisterPageTest < BaseTest
   def setup
     @driver = Selenium::WebDriver.for :firefox
     @user_register = UserRegisterPage.new(@driver)
-    @random_customer = RandomCustomer.new
+    @random_customer = Customer.new
   end
 
   def teardown

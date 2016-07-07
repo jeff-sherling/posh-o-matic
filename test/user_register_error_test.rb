@@ -1,7 +1,7 @@
 $:.push '../lib/page'
 $:.push '../lib/data'
 require 'user_register_page'
-require 'random_customer'
+require 'customer'
 require_relative 'base_test'
 
 class UserRegisterErrorTest < BaseTest
@@ -9,7 +9,7 @@ class UserRegisterErrorTest < BaseTest
   def setup
     @driver = Selenium::WebDriver.for :firefox
     @user_register = UserRegisterPage.new(@driver)
-    @random_customer = RandomCustomer.new
+    @random_customer = Customer.new
   end
 
   def teardown
@@ -25,26 +25,26 @@ class UserRegisterErrorTest < BaseTest
            'One or more field errors are not present.')
   end
 
-  def test_error_alert_with_missing_name
+  def test_error_when_missing_name
     error_page = @user_register.error_create_account(@random_customer.get_email_and_password)
     assert(error_page.is_error_alert_present?, 'Error alert is not present.')
   end
 
-  def test_error_alert_with_missing_date
+  def test_error_when_missing_date
     error_page = @user_register.error_create_account(
-        @random_customer.get_missing_birth_date)
+        @random_customer.get_common)
     assert(error_page.is_error_alert_present?, 'Error alert is not present.')
   end
 
-  def test_error_alert_with_mismatched_passwords
+  def test_error_with_mismatched_passwords
     error_page = @user_register.error_create_account(
         @random_customer.get_mismatched_passwords)
     assert(error_page.is_error_alert_present?, 'Error alert is not present.')
   end
 
-  def test_error_with_minor_missing_guardian_name
+  def test_error_when_missing_guardian_name
     error_page = @user_register.error_create_account(
-        @random_customer.get_missing_minor_guardian)
+        @random_customer.get_missing_guardian)
     assert(error_page.is_error_alert_present?, 'Error alert is not present.')
     end
 
