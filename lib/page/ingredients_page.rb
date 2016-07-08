@@ -1,4 +1,3 @@
-$:.push '../lib/page'
 require 'base_page'
 
 class IngredientsPage < BasePage
@@ -16,7 +15,6 @@ class IngredientsPage < BasePage
     wait_for { displayed?(PAGE_HEADER) }
   end
 
-  # methods
   def skip_intro
     click_on SKIP_INTRO_BTN
   end

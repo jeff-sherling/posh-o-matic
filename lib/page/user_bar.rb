@@ -1,11 +1,10 @@
-$:.push '../lib/page'
 require 'base_page'
-#require 'landing_page'
 
 class UserBar < BasePage
 
   # Logged in & public locators
   MY_ACCOUNT = { :id => 'myaccount--link' }
+  CART_QUANTITY = { :css => '.cart-qty' }
 
   # Logged in only locators
   REFERRAL_LINK = { :id => 'perks-referral-button' }
@@ -33,7 +32,10 @@ class UserBar < BasePage
     click_on MY_ACCOUNT
     wait_for(5) { displayed?(LOGOUT) }
     click_on LOGOUT
-    #UserBar.new(driver)
+  end
+
+  def get_cart_quantity
+    text_of CART_QUANTITY
   end
 
 end

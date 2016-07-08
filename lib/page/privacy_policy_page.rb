@@ -1,12 +1,10 @@
-$:.push '../lib/page'
 require 'base_page'
 
-class PrivacyPolicy < BasePage
+class PrivacyPolicyPage < BasePage
   PAGE_URL = '/privacy-policy'
 
-  # locators
+  # locator
   PAGE_HEADER = { :css => 'h2.pane-title' }
-  SUB_HEADER = { :css => 'h3' }
 
   def initialize(driver)
     super(driver)
@@ -14,7 +12,7 @@ class PrivacyPolicy < BasePage
     wait_for { displayed?(PAGE_HEADER) }
   end
 
-  def get_page_header
+  def get_page_header_text
     find(PAGE_HEADER).text
   end
 

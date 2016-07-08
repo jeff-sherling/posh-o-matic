@@ -1,4 +1,3 @@
-$:.push '../lib/page'
 require 'selenium-webdriver'
 $:.push '../lib/log'
 require 'test_logger'

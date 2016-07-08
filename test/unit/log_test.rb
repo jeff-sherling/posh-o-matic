@@ -1,4 +1,4 @@
-$:.push '../lib/log'
+$:.push '../../lib/log'
 require 'test_logger'
 require 'minitest/autorun'
 
