@@ -26,7 +26,7 @@ class UserFactory
     end
 
     def get_zip_code
-      "#{sprintf '%05d', rand(100000)}"
+      "#{sprintf '%05d', 1 + rand(99999)}"
     end
 
     private

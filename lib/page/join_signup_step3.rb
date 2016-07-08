@@ -1,2 +1,0 @@
-class JoinSignupStep3
-end

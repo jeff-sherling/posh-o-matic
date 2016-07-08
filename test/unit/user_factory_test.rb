@@ -56,7 +56,7 @@ class UserFactoryTest < Minitest::Test
     assert(day.size >= 1 && day.size < 3, 'Day should be 1-2 digits.')
   end
 
-  def test_sponsor_zip
+  def test_zip_code
     zip = UserFactory.get_zip_code
     TestLogger.log.info "Zip: #{zip}"
     assert(zip.size == 5, 'Zip code is not padded with leading zeros.')

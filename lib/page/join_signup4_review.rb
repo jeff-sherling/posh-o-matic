@@ -1,6 +1,6 @@
 require 'base_page'
 
-class JoinSignupReview < BasePage
+class JoinSignup4Review < BasePage
 
   # Locators
   TERMS_CBOX = { :id => 'edit-terms' }
