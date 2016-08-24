@@ -4,6 +4,7 @@ require 'ramcrest'
 
 class BaseTest < Minitest::Test
 
-    ENV['base_url'] = 'http://virtual-office-g4p7lpmywlbys.us.platform.sh/p'
+  PREFIX = 'vo-demo'
+  ENV['base_url'] = 'http://' + PREFIX + '-g4p7lpmywlbys.us.platform.sh/p'
 
 end
