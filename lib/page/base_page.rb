@@ -1,6 +1,6 @@
 require 'selenium-webdriver'
 $:.push '../lib/log'
-require 'test_logger'
+require 'console'
 
 class BasePage
   attr_reader :driver
@@ -11,60 +11,77 @@ class BasePage
 
   def visit(url = '/')
     # Visit page URL; ENV is defined in test file
-    TestLogger.log.info "Navigating to URL: #{url}."
+    Console.log.info "Navigating to #{url}"
     @driver.get(ENV['base_url'] + url)
   end
 
   def find(locator)
-    @driver.find_element locator
+    begin
+      @driver.find_element locator
+    rescue Selenium::WebDriver::Error::NoSuchElementError
+      Console.log.info "Unable to find #{locator}"
+      raise NoSuchElementError
+    end
   end
 
   def find_elements(locator)
     # Returns array of elements matching locator
-    TestLogger.log.info "Getting locator array: #{locator}."
-    @driver.find_elements locator
+    begin
+      Console.log.info "Looking for #{locator}"
+      @driver.find_elements locator
+    rescue Selenium::WebDriver::Error::NoSuchElementError
+      Console.log.info "Unable to find #{locator}"
+      Selenium::WebDriver::Error::NoSuchElementError
+    end
   end
 
   # Clear text field
   def clear(locator)
-    TestLogger.log.info "Clearing: #{locator}."
+    Console.log.info "Clearing text field (#{locator})"
     find(locator).clear
   end
 
   def type(locator, input)
-    TestLogger.log.info "Sending: '#{input}' to: #{locator}."
+    Console.log.info "Sending '#{input}' to #{locator}"
     find(locator).send_keys input
   end
 
   def click_on(locator)
-    TestLogger.log.info "Clicking: #{locator}."
+    Console.log.info "Clicking #{locator}"
     find(locator).click
   end
 
   def displayed?(locator)
-    @driver.find_element(locator).displayed?
-    true
+    begin
+      @driver.find_element(locator).displayed?
+      true
     rescue Selenium::WebDriver::Error::NoSuchElementError
-      TestLogger.log.info "Element not displayed: #{locator}."
+      Console.log.info "Element not displayed: #{locator}"
       false
+    end
   end
 
   def text_of(locator)
-    find(locator).text
+    element_text = find(locator).text
+    Console.log.info "Element text: #{element_text}"
+    element_text
   end
 
-  def title
-    @driver.title
+  def get_title
+    page_title = @driver.title
+    Console.log.info "Title: #{page_title}"
+    page_title
   end
 
   def get_url
+    Console.log.info "URL: #{@driver.current_url}"
     @driver.current_url
   end
 
   def select_dropdown(locator, option, method=:value)
+    Console.log.info "Select field: #{locator} \n\toption: #{option} \n\t method: #{method}"
     web_element = @driver.find_element(locator)
     select_list = Selenium::WebDriver::Support::Select.new(web_element)
-    TestLogger.log.info "Select list: #{locator}; option: #{option}; method: #{method}"
     select_list.select_by(method, option)
   end
 

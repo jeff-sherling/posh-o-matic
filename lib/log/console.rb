@@ -1,6 +1,6 @@
 require 'logger'
 
-class TestLogger
+class Console
 
   def self.log
     if @logger.nil?
