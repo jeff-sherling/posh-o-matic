@@ -1,5 +1,5 @@
 require 'base_page'
-require 'test_logger'
+require 'console'
 
 class LandingPage < BasePage
   PAGE_URL = '/'
@@ -9,7 +9,7 @@ class LandingPage < BasePage
   def initialize(driver)
     super(driver)
     visit PAGE_URL
-    TestLogger.log.info 'Waiting Landing page.'
+    Console.log.info 'Waiting on Landing page.'
     wait_for LANDING_PAGE
   end
 
