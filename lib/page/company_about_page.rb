@@ -4,8 +4,10 @@ class CompanyAboutPage < BasePage
   PAGE_URL = '/company-about'
 
   # locators
-  PAGE_HEADER = { :css => 'h1.about-h1' }
+  PAGE_HEADER = { :css => '.row:not(.founded-row) .col-md-12 .about-h1' }
   FOUNDED_HEADER = { :css => '.founded-row h1.about-h1' }
+  H1_HEADER = { :css => 'h1.about-h1' }
+  H2_HEADER = { :css => 'h2' }
 
   def initialize(driver)
     super(driver)
@@ -20,6 +22,14 @@ class CompanyAboutPage < BasePage
 
   def is_founded_header_present?
     displayed?(FOUNDED_HEADER)
+  end
+
+  def get_h1_count
+    find_elements(H1_HEADER).size
+  end
+
+  def get_h2_count
+    find_elements(H2_HEADER).size
   end
 
 end

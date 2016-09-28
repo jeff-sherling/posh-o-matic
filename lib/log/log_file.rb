@@ -3,12 +3,12 @@ require 'multi_log'
 
 class LogFile
 
-  #@file = File.open("log/automation.log", File::WRONLY | File::APPEND | File::CREAT)
-  # @file = File.open("#{$ROOT_PATH}/log/automation.log", File::WRONLY | File::APPEND | File::CREAT)
+  path = '/Users/jeff.sherling/workspace/posh-o-matic/results'
+  @file = File.open("#{path}/automation.log", File::WRONLY | File::APPEND | File::CREAT)
 
   def self.log
     if @logger.nil?
-      @logger = Logger.new('test.log', 'daily')
+      @logger = Logger.new(@file)
       @logger.level = Logger::DEBUG
       @logger.datetime_format = '%Y-%m-%d %H:%M:%S '
     end
