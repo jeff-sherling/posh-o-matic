@@ -6,9 +6,9 @@ class PrivacyPolicyPage < BasePage
   # locator
   PAGE_HEADER = { :css => 'h2.pane-title' }
 
-  def initialize(driver)
+  def initialize(driver, nav = true)
     super(driver)
-    visit(PAGE_URL)
+    visit(PAGE_URL) if nav
     wait_for { displayed?(PAGE_HEADER) }
   end
 

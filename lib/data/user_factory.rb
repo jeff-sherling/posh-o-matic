@@ -5,7 +5,14 @@ class UserFactory
       (get_random_string length).capitalize
     end
 
+    def get_invalid_email
+      bad_address = %w(@mailinator @@@mailinator.com @mailinator,,com @mailinator...com
+          @:mailinator:com mailinator.com)
+      "#{get_random_string(15)}" + bad_address[rand(bad_address.size)]
+    end
+
     def get_email
+      # e.g., auto_kRtHdnpoQw.RAdckTkpks@mailinator.com
       "auto_#{get_random_string(10)}.#{get_random_string(10)}@mailinator.com"
     end
 
@@ -22,6 +29,7 @@ class UserFactory
     end
 
     def get_birth_day
+      # Avoid '30 days hath September...' issues by returning values 1-28 only
       "#{1 + rand(max = 28)}"
     end
 

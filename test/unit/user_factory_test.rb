@@ -2,9 +2,14 @@ $:.push '../../lib/data'
 $:.push '../../lib/log'
 require 'user_factory'
 require 'minitest/autorun'
+require 'minitest/reporters'
 require 'console'
 
 class UserFactoryTest < Minitest::Test
+
+  Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new,
+                            Minitest::Reporters::JUnitReporter.new
+                           ]
 
   def test_name
     name = UserFactory.get_name 12
@@ -60,6 +65,12 @@ class UserFactoryTest < Minitest::Test
     zip = UserFactory.get_zip_code
     Console.log.info "Zip: #{zip}"
     assert(zip.size == 5, 'Zip code is not padded with leading zeros.')
+  end
+
+  def test_invalid_email
+    email = UserFactory.get_invalid_email
+    Console.log.info "Bad email: #{email}"
+    assert_includes(email, 'mailinator', 'Na na na na')
   end
 
 end
