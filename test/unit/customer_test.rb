@@ -1,10 +1,14 @@
 $:.push '../../lib/data'
 require 'customer'
 require 'minitest/autorun'
+require 'minitest/reporters'
 $:.push '../../lib/log'
 require 'console'
 
 class CustomerTest < Minitest::Test
+
+  Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new,
+                            Minitest::Reporters::JUnitReporter.new]
 
   def setup
     @random_customer = Customer.new

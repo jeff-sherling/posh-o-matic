@@ -34,10 +34,10 @@ class Customer
   end
 
   def get_common
-    missing = get_email_and_password
-    missing[:first] = UserFactory.get_name(12)
-    missing[:last] = UserFactory.get_name(15)
-    missing
+    common = get_email_and_password
+    common[:first] = UserFactory.get_name(12)
+    common[:last] = UserFactory.get_name(15)
+    common
   end
 
   def get_email_and_password
@@ -50,6 +50,11 @@ class Customer
 
   def get_email_only
     email = { :email => UserFactory.get_email }
+    email
+  end
+
+  def get_invalid_email
+    email = { :email => UserFactory.get_invalid_email }
     email
   end
 

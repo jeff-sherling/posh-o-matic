@@ -9,9 +9,9 @@ class IngredientsPage < BasePage
   INGREDIENTS_HEADERS = { :css => 'h4.ingredients-header' }
   VIEW_PRODUCTS_BTN = { :css => 'button.ingredients-button' }
 
-  def initialize(driver)
+  def initialize(driver, nav = true)
     super(driver)
-    visit(PAGE_URL)
+    visit(PAGE_URL) if nav
     wait_for { displayed?(PAGE_HEADER) }
   end
 

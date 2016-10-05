@@ -1,10 +1,12 @@
 require 'logger'
-require 'multi_log'
+#require 'multi_log'
 
 class LogFile
 
-  path = '/Users/jeff.sherling/workspace/posh-o-matic/results'
-  @file = File.open("#{path}/automation.log", File::WRONLY | File::APPEND | File::CREAT)
+  date = Time.now.strftime('%h-%d-%Y')
+  time = Time.now.strftime('%H-%M-%S')
+  path = '~/Library/Logs/automation.' + date + '_' + time + '.log'
+  @file = File.expand_path(path)
 
   def self.log
     if @logger.nil?
