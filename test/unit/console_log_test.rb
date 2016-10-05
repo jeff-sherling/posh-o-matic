@@ -1,8 +1,12 @@
 $:.push '../../lib/log'
 require 'console'
 require 'minitest/autorun'
+require 'minitest/reporters'
 
 class ConsoleLogTest < Minitest::Test
+
+  Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new,
+                            Minitest::Reporters::JUnitReporter.new]
 
   def test_info
     out, err = capture_subprocess_io do

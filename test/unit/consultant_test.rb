@@ -1,10 +1,14 @@
 $:.push '../../lib/data'
 require 'consultant'
 require 'minitest/autorun'
+require 'minitest/reporters'
 $:.push '../../lib/log'
 require 'console'
 
 class ConsultantTest < Minitest::Test
+
+  Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new,
+                            Minitest::Reporters::JUnitReporter.new]
 
   def test_get_common
     info = Consultant.get_common
