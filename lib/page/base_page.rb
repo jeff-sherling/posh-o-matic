@@ -11,7 +11,7 @@ class BasePage
 
   def visit(url = '/')
     # Visit page URL; ENV is defined in test file
-    Console.log.info "Navigating to #{url}"
+    Console.log.info "Navigating to #{ENV['base_url'] + url}"
     @driver.get(ENV['base_url'] + url)
   end
 
@@ -44,6 +44,13 @@ class BasePage
   def type(locator, input)
     Console.log.info "Sending '#{input}' to #{locator}"
     find(locator).send_keys input
+  end
+
+  def js_type(locator, input)
+    # Send locator, not a hash; e.g., '#edit-mail', not {:css => "#edit-mail"}
+    Console.log.info "Sending '#{input}' to '#{locator}' via JS Execute."
+    js_string = "document.querySelector('" + locator.to_s + "').setAttribute('value', '" + input.to_s + "');"
+    @driver.execute_script(js_string)
   end
 
   def click_on(locator)

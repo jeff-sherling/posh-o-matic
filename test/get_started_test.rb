@@ -18,12 +18,11 @@ class GetStartedTest < BaseTest
 
   def test_success_with_valid_email
     email = @email.get_email_only
-    Console.log.info "Email value: #{email}"
     assert(@get_started.submit_valid_email(email), 'Success alert not visible.')
   end
 
   def test_error_with_invalid_email
     assert(@get_started.submit_invalid_email(@email.get_invalid_email), 'Error message not present.')
-    end
+  end
 
 end
