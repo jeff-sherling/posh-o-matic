@@ -26,6 +26,10 @@ class GetStartedPage < BasePage
     is_error_present
   end
 
+  def email_box_present?
+    wait_for(5) { displayed? EMAIL_BOX }
+  end
+
   private
 
   def submit_email(email = {})

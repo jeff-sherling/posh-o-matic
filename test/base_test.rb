@@ -8,7 +8,7 @@ require 'console'
 class BaseTest < Minitest::Test
 
   Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new, Minitest::Reporters::JUnitReporter.new]
-  PREFIX = 'blackfire-renovsa'
+  PREFIX = 'feature-spring-lqw5hlq'
   ENV['base_url'] = 'http://' + PREFIX + '-g4p7lpmywlbys.us.platform.sh/p'
 
 end

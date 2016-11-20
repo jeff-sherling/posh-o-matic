@@ -10,7 +10,7 @@ class BasePage
   end
 
   def visit(url = '/')
-    # Visit page URL; ENV is defined in test file
+    # Visit URL; ENV defined in BaseTest.rb
     Console.log.info "Navigating to #{ENV['base_url'] + url}"
     @driver.get(ENV['base_url'] + url)
   end
@@ -41,20 +41,27 @@ class BasePage
     find(locator).clear
   end
 
+  def alt_clear(locator)
+    Console.log.info "Clearing text field via Ctrl + A, Delete (#{locator})"
+    @driver.send_keys(:control, 'a')
+    @driver.send_keys(:delete)
+  end
+
   def type(locator, input)
     Console.log.info "Sending '#{input}' to #{locator}"
     find(locator).send_keys input
   end
 
   def js_type(locator, input)
-    # Send locator, not a hash; e.g., '#edit-mail', not {:css => "#edit-mail"}
+    # For now, send locator, not a hash; e.g., '#edit-mail', not {:css => "#edit-mail"}
+    # TODO: extract locator from hash; behavior should match 'type' method
     Console.log.info "Sending '#{input}' to '#{locator}' via JS Execute."
     js_string = "document.querySelector('" + locator.to_s + "').setAttribute('value', '" + input.to_s + "');"
     @driver.execute_script(js_string)
   end
 
   def click_on(locator)
-    Console.log.info "Clicking #{locator}"
+    Console.log.info "Clicking on: #{locator}"
     find(locator).click
   end
 
@@ -70,23 +77,23 @@ class BasePage
 
   def text_of(locator)
     element_text = find(locator).text
-    Console.log.info "Element text: #{element_text}"
+    Console.log.info "Getting element text: #{element_text}"
     element_text
   end
 
   def get_title
     page_title = @driver.title
-    Console.log.info "Title: #{page_title}"
+    Console.log.info "Getting title: #{page_title}"
     page_title
   end
 
   def get_url
-    Console.log.info "URL: #{@driver.current_url}"
+    Console.log.info "Getting URL: #{@driver.current_url}"
     @driver.current_url
   end
 
   def select_dropdown(locator, option, method=:value)
-    Console.log.info "Select field: #{locator} \n\toption: #{option} \n\t method: #{method}"
+    Console.log.info "Select field: #{locator} \n\toption: #{option} \n\t select method: #{method}"
     web_element = @driver.find_element(locator)
     select_list = Selenium::WebDriver::Support::Select.new(web_element)
     select_list.select_by(method, option)
