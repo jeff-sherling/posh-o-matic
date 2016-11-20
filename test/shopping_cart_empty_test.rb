@@ -15,7 +15,7 @@ class ShoppingCartEmptyTest < BaseTest
 
   def test_visit_shop_button
     products_page = @shopping_cart.click_visit_shop
-    assert_includes(products_page.get_title, 'Products', 'Visit Shop button should be visible.')
+    assert_includes(products_page.get_title, 'Products', 'Link should redirect to Products page.')
   end
 
 end

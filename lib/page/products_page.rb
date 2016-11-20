@@ -7,7 +7,7 @@ class ProductsPage < BasePage
 
   def initialize(driver, nav = true)
     super(driver)
-    visit(PAGE_URL) if nav
+    visit PAGE_URL if nav
     wait_for { displayed? GRID_VIEW_TOGGLE }
   end
 

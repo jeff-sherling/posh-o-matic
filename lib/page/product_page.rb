@@ -1,18 +1,19 @@
 require 'base_page'
 require 'shopping_cart_page'
+require 'user_bar'
 
 class ProductPage < BasePage
 
   # Locators
   UP_SPINNER_BTN = { :css => '.ui-spinner-up' }
   DOWN_SPINNER_BTN = { :css => '.ui-spinner-down' }
-  ADD_TO_CART = { :css => "#edit-submit[value='Add to cart']" }
+  ADD_TO_CART = { :css => '#edit-submit.form-submit' }
   OUT_OF_STOCK = { :css => '.form-button-disabled[disabled]' }
   PROD_PHOTO = { :css => '.product__gallery' }
 
   SUCCESS_ALERT = { :css => '.messages--status' }
 
-  def initialize(driver, nav = true, prod_url = '/gender-bender-chunk')
+  def initialize(driver, prod_url = '/gender-bender-chunk', nav = true)
     super(driver)
     visit(prod_url) if nav
     wait_for { displayed?(PROD_PHOTO) }
@@ -28,6 +29,7 @@ class ProductPage < BasePage
       click_on ADD_TO_CART
     else
       Console.log.info "Unable to find 'Add To Cart' button."
+      raise Selenium::WebDriver::Error::NoSuchElementError, "'Add To Cart' button not found."
     end
   end
 
@@ -35,8 +37,15 @@ class ProductPage < BasePage
     wait_for(5) { displayed?(OUT_OF_STOCK) }
   end
 
-  def is_add_to_cart_successful?
+  def is_success_alert_present?
     wait_for(5) { displayed?(SUCCESS_ALERT) }
+  end
+
+  def get_cart_total
+    user_bar = UserBar.new(driver)
+    cart_total = user_bar.get_cart_quantity
+    puts "cart_total: #{cart_total}"
+    cart_total
   end
 
 end
