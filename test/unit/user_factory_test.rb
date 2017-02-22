@@ -14,7 +14,7 @@ class UserFactoryTest < Minitest::Test
   def test_name
     name = UserFactory.get_name 12
     Console.log.info "Name: #{name}"
-    assert(name.size == 12, 'First name should be 12 characters.')
+    assert(name.size == 12, 'Name should be 12 characters.')
   end
 
   def test_name_argument_value
@@ -34,7 +34,7 @@ class UserFactoryTest < Minitest::Test
   def test_email
     email = UserFactory.get_email
     Console.log.info "Email: #{email}"
-    assert(email.size == 41, 'Email size is less than 5.')
+    assert(email.size == 41, 'Default email size is 41 characters.')
   end
 
   def test_birth_year
@@ -70,7 +70,37 @@ class UserFactoryTest < Minitest::Test
   def test_invalid_email
     email = UserFactory.get_invalid_email
     Console.log.info "Bad email: #{email}"
-    assert_includes(email, 'mailinator', 'Na na na na')
+    assert_includes(email, 'mailinator', 'Email addresses not using mailinator.')
+  end
+
+  def test_ssn
+    ssn = UserFactory.get_ssn
+    Console.log.info "SSN: #{ssn}"
+    assert(ssn.size == 9, 'SSN is incorrect size')
+  end
+
+  def test_phone
+    phone = UserFactory.get_phone
+    Console.log.info "Phone: #{phone}"
+    assert(phone.size == 10, 'Phone is incorrect size')
+  end
+
+  def test_address1
+    address = UserFactory.get_address1
+    Console.log.info "Address 1: #{address}"
+    assert(address.size >= 10, 'Address1 size too small.')
+  end
+
+  def test_address2
+    room = UserFactory.get_address2
+    Console.log.info "Address 2: #{room}"
+    assert(room.size >= 5, 'Address2 size too small.')
+  end
+
+  def test_state
+    state = UserFactory.get_state
+    Console.log.info "State: #{state}"
+    assert(state.size == 2, 'State should be two-letter abbreviation.')
   end
 
 end

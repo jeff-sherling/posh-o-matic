@@ -3,28 +3,16 @@ require 'user_factory'
 class Consultant
   class << self
 
-    def get_valid_consultant
-      valid = get_common
-      valid[:birth_month] = UserFactory.get_birth_month
-      valid[:birth_day] = UserFactory.get_birth_day
-      valid[:birth_year] = UserFactory.get_birth_year
-      valid[:sponsor_name] = 'Top Consultant'
-      valid[:sponsor_zip] = '84101'
-      valid[:rep_site_url] = "Posh_#{valid[:last]}"
-      valid[:t_shirt] = 'XXL'
-      valid[:terms] = true
-      valid[:policies] = true
-      valid
-    end
+    # Used for /join/signup form
 
-    def get_do_not_agree_consultant
+    def get_disagree_consultant
       agree = get_valid_consultant
       agree[:terms] = false
-      agree[:policies] = false
+      agree[:propay_terms] = false
       agree
     end
 
-    def get_valid_minor_consultant
+    def get_minor_consultant
       valid = get_valid_consultant
       valid[:birth_month] = '12'
       valid[:birth_day] = '31'
@@ -32,20 +20,47 @@ class Consultant
       valid
     end
 
+    def get_invalid_email
+      info = get_valid_consultant
+      info[:email] = UserFactory.get_invalid_email
+      info[:confirm_email] = "#{info[:email]}"
+      info
+    end
+
     def get_mismatched_email
-      info = get_common
+      info = get_valid_consultant
       info[:confirm_email] = "bad_#{info[:email]}"
       info
     end
 
     def get_mismatched_password
-      info = get_common
+      info = get_valid_consultant
       info[:confirm_password] = 'def456'
       info
     end
 
+    def get_valid_consultant
+      valid = get_address
+      valid[:sponsor_name] = 'Amanda Williams'
+      valid[:sponsor_zip] = '84101'
+      valid[:rep_site] = "#{valid[:first]}#{valid[:last]}"
+      valid[:propay_terms] = true
+      valid
+    end
+
+    def get_address
+      address = get_common
+      address[:address1] = UserFactory.get_address1
+      address[:address2] = UserFactory.get_address2
+      address[:city] = UserFactory.get_name
+      address[:state] = UserFactory.get_state
+      address[:zip] = UserFactory.get_zip_code
+      address[:terms] = true
+      address
+    end
+
     def get_common
-      common = {}
+      common = get_basic
       common[:first] = UserFactory.get_name
       common[:last] = UserFactory.get_name 12
       common[:email] = UserFactory.get_email
@@ -53,6 +68,16 @@ class Consultant
       common[:password] = 'abc123'
       common[:confirm_password] = common[:password]
       common
+    end
+
+    def get_basic
+      basic = {}
+      basic[:ssn] = UserFactory.get_ssn
+      basic[:phone] = UserFactory.get_phone
+      basic[:birth_month] = UserFactory.get_birth_month
+      basic[:birth_day] = UserFactory.get_birth_day
+      basic[:birth_year] = UserFactory.get_birth_year
+      basic
     end
 
   end
