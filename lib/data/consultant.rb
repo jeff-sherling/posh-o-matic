@@ -14,9 +14,7 @@ class Consultant
 
     def get_minor_consultant
       valid = get_valid_consultant
-      valid[:birth_month] = '12'
-      valid[:birth_day] = '31'
-      valid[:birth_year] = UserFactory.get_minor_birth_year
+      valid[:birth_date] = UserFactory.get_minor_birth_date
       valid
     end
 
@@ -74,9 +72,7 @@ class Consultant
       basic = {}
       basic[:ssn] = UserFactory.get_ssn
       basic[:phone] = UserFactory.get_phone
-      basic[:birth_month] = UserFactory.get_birth_month
-      basic[:birth_day] = UserFactory.get_birth_day
-      basic[:birth_year] = UserFactory.get_birth_year
+      basic[:birth_date] = UserFactory.get_birth_date
       basic
     end
 

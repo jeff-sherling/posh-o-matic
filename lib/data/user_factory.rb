@@ -16,6 +16,14 @@ class UserFactory
       "auto_#{get_random_string(length)}.#{get_random_string(length)}@mailinator.com"
     end
 
+    def get_birth_date
+      "#{get_birth_month}/#{get_birth_day}/#{get_birth_year}"
+    end
+
+    def get_minor_birth_date
+      "12/31/#{get_minor_birth_year}"
+    end
+
     def get_birth_year
       "#{(Time.new.year - 80) + rand(max = 66)}"
     end
@@ -28,9 +36,20 @@ class UserFactory
       "#{sprintf '%02d', 1 + rand(max = 12)}"
     end
 
+    def get_birth_month_value
+      # Customer birth month (/user/register) option values do not have leading zero
+      "#{1 + rand(max = 12)}"
+    end
+
     def get_birth_day
+      # Customer birth day (/user/register) option values do not have leading zero
       # Avoid '30 days hath September...' issues by returning values 1-28 only
       "#{sprintf '%02d', 1 + rand(max = 28)}"
+    end
+
+    def get_birth_day_value
+      # Avoid '30 days hath September...' issues by returning values 1-28 only
+      "#{1 + rand(max = 28)}"
     end
 
     def get_zip_code
@@ -52,7 +71,7 @@ class UserFactory
                 Hawthorn Hemlock Holly Juniper Larch Locust Madrone Mahogany
                 Maple Myrtle Oak Pear Pine Plum Poplar Redwood Olive
                 Sequoia Spruce Sweetgum Sycamore Walnut Willow Yew)
-      road = %w(Ave Blvd Ct Dr Ln Rd Pl St Way)
+      road = %w(Ave Blvd Ct Dr Ln Rd Pl St Trl Way)
       "#{1 + rand(9999)} #{direction[rand(direction.size)]} #{street[rand(street.size)]} #{road[rand(road.size)]}"
     end
 

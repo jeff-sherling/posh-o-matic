@@ -20,6 +20,8 @@ class UserRegisterPage < BasePage
   ACCEPT_CHECKBOX = { :id => 'edit-legal-accept' }
   CREATE_NEW_ACCOUNT_BTN = { :id => 'edit-submit' }
 
+  SUCCESS_ALERT = { :css => '.messages.messages--status' }
+
   def initialize(driver)
     super(driver)
     visit(PAGE_URL)
@@ -34,6 +36,10 @@ class UserRegisterPage < BasePage
   def error_create_account(info = {})
     submit_customer(info)
     UserRegisterError.new(driver)
+  end
+
+  def success_alert_present?
+    displayed? SUCCESS_ALERT
   end
 
   private
