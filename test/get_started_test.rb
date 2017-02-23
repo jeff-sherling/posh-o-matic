@@ -17,8 +17,8 @@ class GetStartedTest < BaseTest
   end
 
   def test_success_with_valid_email
-    email = @email.get_email_only
-    assert(@get_started.submit_valid_email(email), 'Success alert not visible.')
+    email = @email.get_email
+    assert(@get_started.submit_valid_email(email), 'Success alert should be visible.')
   end
 
   def test_error_with_invalid_email
