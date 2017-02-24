@@ -14,9 +14,7 @@ class CompanyAboutPageTest < BaseTest
   end
 
   def test_required_h1_headings_are_present
-    assert(@about_page.is_pampering_brand_present? &&
-               @about_page.is_founded_header_present? &&
-               @about_page.get_h1_count == 2,
+    assert(@about_page.is_pampering_brand_present? && @about_page.is_founded_header_present?,
            'Pampering or Founded headers not present.')
   end
 
