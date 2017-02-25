@@ -1,7 +1,6 @@
 $:.push '../lib/page'
 require_relative 'base_test'
 require 'footer_main_menu'
-require 'join_page'
 
 class FooterMainMenuTest < BaseTest
 
