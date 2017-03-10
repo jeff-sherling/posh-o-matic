@@ -1,12 +1,13 @@
 $:.push '../lib/page'
 require_relative 'base_test'
-require 'shopping_cart_page'
+require 'shopping_cart_empty'
+require 'products_page'
 
 class ShoppingCartEmptyTest < BaseTest
 
   def setup
     @driver = Selenium::WebDriver.for :firefox
-    @shopping_cart = ShoppingCartPage.new(@driver)
+    @shopping_cart = ShoppingCartEmpty.new(@driver)
   end
 
   def teardown
