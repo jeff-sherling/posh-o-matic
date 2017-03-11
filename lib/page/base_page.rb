@@ -1,4 +1,5 @@
 require 'selenium-webdriver'
+require 'selenium/webdriver/common/action_builder'
 $:.push '../lib/log'
 require 'console'
 
@@ -27,7 +28,7 @@ class BasePage
   def find_elements(locator)
     # Returns array of elements matching locator
     begin
-      Console.log.info "Looking for #{locator}"
+      Console.log.info "Locator array #{locator}"
       @driver.find_elements locator
     rescue Selenium::WebDriver::Error::NoSuchElementError
       Console.log.info "Unable to find #{locator}"
@@ -61,8 +62,13 @@ class BasePage
   end
 
   def click_on(locator)
-    Console.log.info "Clicking on: #{locator}"
+    Console.log.info "Clicking #{locator}"
     find(locator).click
+  end
+
+  def click_action(locator)
+    Console.log.info "Clicking (Action) #{locator}"
+    @driver.action.click(locator).perform
   end
 
   def displayed?(locator)
@@ -77,18 +83,18 @@ class BasePage
 
   def text_of(locator)
     element_text = find(locator).text
-    Console.log.info "Getting element text: #{element_text}"
+    Console.log.info "Getting element text #{element_text}"
     element_text
   end
 
   def get_title
     page_title = @driver.title
-    Console.log.info "Getting title: #{page_title}"
+    Console.log.info "Getting title #{page_title}"
     page_title
   end
 
   def get_url
-    Console.log.info "Getting URL: #{@driver.current_url}"
+    Console.log.info "Getting URL #{@driver.current_url}"
     @driver.current_url
   end
 

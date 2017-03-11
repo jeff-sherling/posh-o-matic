@@ -15,6 +15,6 @@ class BaseTest < Minitest::Test
   #PREFIX = 'feature-spring-lqw5hlq'
   #ENV['base_url'] = 'http://' + PREFIX + '-g4p7lpmywlbys.us.platform.sh/p'
 
-  ENV['base_url'] = STAGE
+  ENV['base_url'] = DEV
 
 end
