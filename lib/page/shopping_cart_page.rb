@@ -6,21 +6,22 @@ class ShoppingCartPage < BasePage
   PAGE_URL = '/cart'
 
   # Locators
-  SUCCESS_ALERT = { :css => '.messages.messages--status' }
+  SUCCESS_ALERT = { css: '.messages.messages--status' }
 
-  CHECKOUT_PROGRESS = { :id => 'block-commerce-checkout-progress-indication' }
+  CHECKOUT_PROGRESS = { id: 'block-commerce-checkout-progress-indication' }
 
-  LINE_ITEM_TOTAL = { :css => 'tr.component-type-commerce-price-formatted-amount' }
+  LINE_ITEM_TOTAL = { css: 'tr.component-type-commerce-price-formatted-amount' }
 
-  BUY_WITH_PERKS_BTN = { :css => "[id^='edit-edit-points-'] > .buy_with_points_button" }
-  DISABLED_BUY_PERKS_BTN = { :css => '.disabled > input.buy_with_points_button' }
+  BUY_WITH_PERKS_BTN = { css: "[id^='edit-edit-points-'] > .buy_with_points_button" }
+  DISABLED_BUY_PERKS_BTN = { css: '.disabled > input.buy_with_points_button' }
 
-  QTY_UP_ARROW = { :css => 'a.ui-spinner-up' }
-  QTY_DOWN_ARROW = { :css => 'a.ui-spinner-down' }
-  UPDATE_CART_BTN = { :css => '' }
-  REMOVE_ITEM = { :css => "[id^='edit-edit-delete-']" }
-  CONTINUE_SHOPPING = { :css => "a.keep-shopping[href$='/products']" }
-  CHECKOUT_BTN = { :id => 'edit-checkout' }
+  QTY_UP_ARROW = { css: 'a.ui-spinner-up' }
+  QTY_DOWN_ARROW = { css: 'a.ui-spinner-down' }
+  UPDATE_CART_BTN = { css: '' }
+  REMOVE_ITEM = { css: "[id^='edit-edit-delete-']" }
+
+  CONTINUE_SHOPPING = { css: "a.keep-shopping[href$='/products']" }
+  CHECKOUT_BTN = { id: 'edit-checkout' }
 
   def initialize(driver, nav = true)
     @driver = super(driver)
@@ -49,6 +50,11 @@ class ShoppingCartPage < BasePage
     else
       ShoppingCartPage.new(driver)
     end
+  end
+
+  def continue_shopping
+    click_on CONTINUE_SHOPPING
+    ProductsPage.new(driver, false)
   end
 
 end
