@@ -19,7 +19,7 @@ class CompanyAboutPageTest < BaseTest
   end
 
   def test_title_includes_about_the_company
-    assert(@about_page.get_title.include?('About the Company'),
+    assert(@about_page.page_title.include?('About the Company'),
            'Title should include About the Company.')
   end
 
