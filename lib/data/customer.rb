@@ -1,9 +1,9 @@
 require 'user_factory'
 
+# Used for /start and /user/register pages.
 class Customer
-
-  def get_minor
-    minor = get_customer
+  def minor
+    minor = customer
     minor[:birth_month] = '12'
     minor[:birth_day] = '31'
     minor[:birth_year] = UserFactory.get_minor_birth_year
@@ -13,20 +13,20 @@ class Customer
     minor
   end
 
-  def get_missing_guardian
-    missing = get_minor
+  def missing_guardian
+    missing = minor
     missing.delete(:guardian_last)
     missing
   end
 
-  def get_mismatched_passwords
-    mismatched = get_customer
+  def mismatched_passwords
+    mismatched = customer
     mismatched[:confirm] = 'def456'
     mismatched
   end
 
-  def get_customer
-    customer = get_common
+  def customer
+    customer = common
     customer[:first] = UserFactory.get_name(12)
     customer[:last] = UserFactory.get_name(15)
     customer[:birth_year] = UserFactory.get_birth_year
@@ -35,22 +35,19 @@ class Customer
     customer
   end
 
-  def get_common
-    email_pwd = get_email
+  def common
+    email_pwd = email
     email_pwd[:password] = 'abc123'
     email_pwd[:confirm] = email_pwd[:password]
     email_pwd[:accept] = true
     email_pwd
   end
 
-  def get_email
-    email = { :email => UserFactory.get_email }
-    email
+  def email
+    { email: UserFactory.get_email }
   end
 
-  def get_invalid_email
-    email = { :email => UserFactory.get_invalid_email }
-    email
+  def invalid_email
+    { email: UserFactory.get_invalid_email }
   end
-
 end
