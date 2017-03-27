@@ -10,28 +10,28 @@ class Consultant
   end
 
   def minor_consultant
-    valid = valid_consultant
-    valid[:birth_date] = UserFactory.minor_birth_date
-    valid
+    minor = valid_consultant
+    minor[:birth_date] = UserFactory.minor_birth_date
+    minor
   end
 
   def invalid_email
-    info = valid_consultant
-    info[:email] = UserFactory.get_invalid_email
-    info[:confirm_email] = info[:email]
-    info
+    invalid_email = valid_consultant
+    invalid_email[:email] = UserFactory.get_invalid_email
+    invalid_email[:confirm_email] = invalid_email[:email]
+    invalid_email
   end
 
   def mismatched_email
-    info = valid_consultant
-    info[:confirm_email] = "bad_#{info[:email]}"
-    info
+    mismatch = valid_consultant
+    mismatch[:confirm_email] = "bad_#{mismatch[:email]}"
+    mismatch
   end
 
   def mismatched_password
-    info = valid_consultant
-    info[:confirm_password] = 'def456'
-    info
+    password = valid_consultant
+    password[:confirm_password] = 'def456'
+    password
   end
 
   def valid_consultant
@@ -61,7 +61,7 @@ class Consultant
     common[:email] = UserFactory.get_email
     common[:confirm_email] = common[:email]
     common[:password] = 'abc123'
-    common[:confirm_password] = common[:password]
+    common[:confirm_password] = 'abc123'
     common
   end
 

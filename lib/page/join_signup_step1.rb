@@ -1,64 +1,53 @@
 require 'base_page'
-require 'login_page'
-require 'new_password_page'
+require 'join_signup_step1_error'
+require 'login_modal'
 
-class JoinSignup1Info < BasePage
+# First (default) panel of /join/signup page.
+class JoinSignupStep1 < BasePage
+  PAGE_URL = '/join/signup'.freeze
 
-  PAGE_URL = '/join/signup'
+  # Selector strings
+  prefix = 'edit-account-fieldgroup-'
+  first_name = "#{prefix}legal-name-first-name"
+  date_of_birth = "#{prefix}birthdate-birthday-datepicker-popup-0"
+  confirm_email = "#{prefix}email-mail-confirm"
+  password = "#{prefix}password-password-pass1"
+  confirm_password = "#{prefix}password-password-pass2"
 
-  # Edit Login locators
-  SIGN_IN_HERE_LINK = { :css=> '#edit-account-step-login-label a[data-target]' }
-
-  # User Login Modal - TODO: Create sign-in modal page object
-  # SIGN_IN_MODAL = { :css => "#userLogin[aria-hidden='false']" }
-  # CLOSE_BTN = { :css => '#userLogin button.close' }
-  # FORGOT_PASSWORD_LINK = { :css => '#edit-forgot-password a' }
-
-  # Edit Account locators
-  FIRST_NAME_BOX = { :id => 'edit-account-fieldgroup-legal-name-first-name' }
-  LAST_NAME_BOX = { :id => 'edit-account-fieldgroup-legal-name-last-name' }
-  DATE_OF_BIRTH_BOX = { :css => 'edit-account-fieldgroup-birthdate-birthday-datepicker-popup-0' }
-  # DATE SELECTOR
-  SSN_BOX = { :css => 'edit-account-fieldgroup-ssn-ssn' }
-
-  ADDRESS1_BOX = { :css => 'edit-account-fieldgroup-address-address-line-1' }
-  ADDRESS2_BOX = { :css => 'edit-account-fieldgroup-address-address-line-2' }
-  CITY_BOX = { :css => 'edit-account-fieldgroup-address-address-city' }
-  STATE_BOX = { :css => 'edit-account-fieldgroup-address-address-state' }
-  # STATE OPTIONS
-  ZIP_CODE_BOX = { :id => 'edit-account-fieldgroup-address-address-zip' }
-
-  EMAIL_BOX = { :id => 'edit-account-fieldgroup-email-mail' }
-  CONFIRM_EMAIL_BOX = { :id => 'edit-account-fieldgroup-email-mail-confirm' }
-  PASSWORD_BOX = { :id => 'edit-account-fieldgroup-password-password-pass1' }
-  CONFIRM_PASSWORD_BOX = { :id => 'edit-account-fieldgroup-password-password-pass2' }
-  PHONE_NUMBER_BOX = { :id => 'edit-account-fieldgroup-phone-phone-number' }
-  TERMS_CONDITIONS_CBOX = { :id => 'edit-account-terms' }
-
-  CONTINUE_BTN = { :id => 'edit-account-submit' }
+  # Locators
+  FIRST_NAME_BOX = { id: first_name }.freeze
+  LAST_NAME_BOX = { id: 'edit-account-fieldgroup-legal-name-last-name' }.freeze
+  DATE_OF_BIRTH_BOX = { id: date_of_birth }.freeze
+  SSN_BOX = { id: 'edit-account-fieldgroup-ssn-ssn' }.freeze
+  ADDRESS1_BOX = { id: 'edit-account-fieldgroup-address-address-line-1' }.freeze
+  ADDRESS2_BOX = { id: 'edit-account-fieldgroup-address-address-line-2' }.freeze
+  CITY_BOX = { id: 'edit-account-fieldgroup-address-address-city' }.freeze
+  STATE_BOX = { id: 'edit-account-fieldgroup-address-address-state' }.freeze
+  ZIP_CODE_BOX = { id: 'edit-account-fieldgroup-address-address-zip' }.freeze
+  EMAIL_BOX = { id: 'edit-account-fieldgroup-email-mail' }.freeze
+  CONFIRM_EMAIL_BOX = { id: confirm_email }.freeze
+  PASSWORD_BOX = { id: password }.freeze
+  CONFIRM_PASSWORD_BOX = { id: confirm_password }.freeze
+  PHONE_NUMBER_BOX = { id: 'edit-account-fieldgroup-phone-phone-number' }.freeze
+  TERMS_CONDITIONS_CBOX = { id: 'edit-account-terms' }.freeze
+  CONTINUE_BTN = { id: 'edit-account-submit' }.freeze
 
   def initialize(driver, nav = true)
     super(driver)
     visit PAGE_URL if nav
-    wait_for { displayed?(CONFIRM_PASSWORD_BOX) }
-  end
-
-  def click_sign_in_here
-    click_on SIGN_IN_HERE_LINK
-  end
-
-  def forgot_password
-    click_on FORGOT_PASSWORD_LINK
-    NewPasswordPage.new(driver)
+    wait_for { displayed? CONFIRM_PASSWORD_BOX }
   end
 
   def submit_valid(info)
-    submit_form(info)
-    JoinSignup2Sponsor.new(driver)
+    populate_form(info)
+    click_on CONTINUE_BTN
+    JoinSignupStep2.new(driver)
   end
 
   def submit_error(info = {})
-    submit_form(info)
+    populate_form(info) unless info.empty?
+    click_on CONTINUE_BTN
+    JoinSignupStep1Error.new(@driver)
   end
 
   def signin_modal_present?
@@ -67,29 +56,38 @@ class JoinSignup1Info < BasePage
 
   private
 
-  def submit_form(info)
-    unless info.class == Hash
-      raise 'Submit Customer method requires a Hash.'
-    end
-    if info.has_key?(:email)
-      type EMAIL_BOX, info[:email]
-    end
-    if info.has_key?(:confirm_email)
-      type CONFIRM_EMAIL_BOX, info[:confirm_email]
-    end
-    if info.has_key?(:password)
-      type PASSWORD_BOX, info[:password]
-    end
-    if info.has_key?(:confirm)
-      type CONFIRM_PASSWORD_BOX, info[:confirm]
-    end
-    if info.has_key?(:first)
-      type FIRST_NAME_BOX, info[:first]
-    end
-    if info.has_key?(:last)
-      type LAST_NAME_BOX, info[:last]
-    end
-    click_on CONTINUE_BTN
+  def populate_form(info)
+    raise 'Submit Customer method requires a Hash.' if info.class != Hash
+    select_dropdown STATE_BOX, info[:state] if info.key?(:state)
+    populate_name_ssn info
+    populate_address info
+    populate_email_password info
+    populate_phone_birth_term info
   end
 
+  def populate_name_ssn(info)
+    type FIRST_NAME_BOX, info[:first] if info.key?(:first)
+    type LAST_NAME_BOX, info[:last] if info.key?(:last)
+    type SSN_BOX, info[:ssn] if info.key?(:ssn)
+  end
+
+  def populate_address(info)
+    type ADDRESS1_BOX, info[:address1] if info.key?(:address1)
+    type ADDRESS2_BOX, info[:address2] if info.key?(:address2)
+    type CITY_BOX, info[:city] if info.key?(:city)
+    type ZIP_CODE_BOX, info[:zip] if info.key?(:zip)
+  end
+
+  def populate_email_password(info)
+    type EMAIL_BOX, info[:email] if info.key?(:email)
+    type PASSWORD_BOX, info[:password] if info.key?(:password)
+    type CONFIRM_EMAIL_BOX, info[:confirm_email] if info.key?(:confirm_email)
+    type CONFIRM_PASSWORD_BOX, info[:confirm] if info.key?(:confirm)
+  end
+
+  def populate_phone_birth_term(info)
+    type PHONE_NUMBER_BOX, info[:phone] if info.key?(:phone)
+    type DATE_OF_BIRTH_BOX, info[:birth_date] if info.key?(:birth_date)
+    click_on TERMS_CONDITIONS_CBOX if info.key?(:terms)
+  end
 end
