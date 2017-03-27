@@ -6,7 +6,7 @@ class Customer
     minor = customer
     minor[:birth_month] = '12'
     minor[:birth_day] = '31'
-    minor[:birth_year] = UserFactory.get_minor_birth_year
+    minor[:birth_year] = UserFactory.minor_birth_year
     minor[:guardian_first] = UserFactory.get_name(12)
     minor[:guardian_middle] = UserFactory.get_name(1)
     minor[:guardian_last] = UserFactory.get_name(15)
@@ -29,9 +29,9 @@ class Customer
     customer = common
     customer[:first] = UserFactory.get_name(12)
     customer[:last] = UserFactory.get_name(15)
-    customer[:birth_year] = UserFactory.get_birth_year
-    customer[:birth_month] = UserFactory.get_birth_month_value
-    customer[:birth_day] = UserFactory.get_birth_day_value
+    customer[:birth_year] = UserFactory.birth_year
+    customer[:birth_month] = UserFactory.birth_month_value
+    customer[:birth_day] = UserFactory.birth_day_value
     customer
   end
 

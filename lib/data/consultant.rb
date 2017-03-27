@@ -11,7 +11,7 @@ class Consultant
 
   def minor_consultant
     valid = valid_consultant
-    valid[:birth_date] = UserFactory.get_minor_birth_date
+    valid[:birth_date] = UserFactory.minor_birth_date
     valid
   end
 
@@ -45,11 +45,11 @@ class Consultant
 
   def address
     address = common
-    address[:address1] = UserFactory.get_address1
-    address[:address2] = UserFactory.get_address2
+    address[:address1] = UserFactory.address1
+    address[:address2] = UserFactory.address2
     address[:city] = UserFactory.get_name
-    address[:state] = UserFactory.get_state
-    address[:zip] = UserFactory.get_zip_code
+    address[:state] = UserFactory.state_province
+    address[:zip] = UserFactory.zip_code
     address[:terms] = true
     address
   end
@@ -67,9 +67,9 @@ class Consultant
 
   def basic
     basic = {}
-    basic[:ssn] = UserFactory.get_ssn
-    basic[:phone] = UserFactory.get_phone
-    basic[:birth_date] = UserFactory.get_birth_date
+    basic[:ssn] = UserFactory.ssn
+    basic[:phone] = UserFactory.phone
+    basic[:birth_date] = UserFactory.birth_date
     basic
   end
 end
