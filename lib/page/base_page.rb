@@ -1,8 +1,9 @@
 require 'selenium-webdriver'
 require 'selenium/webdriver/common/action_builder'
-$:.push '../lib/log'
+$LOAD_PATH.push 'lib/log'
 require 'console'
 
+# Selenium actions performed on elements
 class BasePage
   attr_reader :driver
 
@@ -18,9 +19,10 @@ class BasePage
 
   def find(locator)
     begin
+      puts ''
       @driver.find_element locator
-    rescue Selenium::WebDriver::Error::NoSuchElementError
-      Console.log.info "Unable to find #{locator}"
+    rescue Selenium::WebDriver::Error::NoSuchElementError => e
+      Console.log.info "Unable to find #{locator}\n\t#{e.message}"
       raise NoSuchElementError
     end
   end
@@ -32,7 +34,7 @@ class BasePage
       @driver.find_elements locator
     rescue Selenium::WebDriver::Error::NoSuchElementError
       Console.log.info "Unable to find #{locator}"
-      Selenium::WebDriver::Error::NoSuchElementError
+      raise Selenium::WebDriver::Error::NoSuchElementError
     end
   end
 
@@ -54,10 +56,12 @@ class BasePage
   end
 
   def js_type(locator, input)
-    # For now, send locator, not a hash; e.g., '#edit-mail', not {:css => "#edit-mail"}
+    # For now, send locator, not a hash:
+    # e.g., '#edit-mail', not {:css => "#edit-mail"}
     # TODO: extract locator from hash; behavior should match 'type' method
     Console.log.info "Sending '#{input}' to '#{locator}' via JS Execute."
-    js_string = "document.querySelector('" + locator.to_s + "').setAttribute('value', '" + input.to_s + "');"
+    js_string = "document.querySelector('" + locator.to_s + "').setAttribute(
+      'value', '" + input.to_s + "');"
     @driver.execute_script(js_string)
   end
 
@@ -72,11 +76,9 @@ class BasePage
   end
 
   def displayed?(locator)
-    begin
-      @driver.find_element(locator).displayed?
+    if @driver.find_element(locator).displayed?
       true
-    rescue Selenium::WebDriver::Error::NoSuchElementError
-      Console.log.info "Element not displayed: #{locator}"
+    else
       false
     end
   end
@@ -87,26 +89,26 @@ class BasePage
     element_text
   end
 
-  def get_title
-    page_title = @driver.title
+  def page_title
+    page_title = driver.title
     Console.log.info "Getting title #{page_title}"
     page_title
   end
 
-  def get_url
-    Console.log.info "Getting URL #{@driver.current_url}"
-    @driver.current_url
+  def page_url
+    Console.log.info "Getting URL #{driver.current_url}"
+    driver.current_url
   end
 
-  def select_dropdown(locator, option, method=:value)
-    Console.log.info "Select field: #{locator} \n\toption: #{option} \n\t select method: #{method}"
-    web_element = @driver.find_element(locator)
+  def select_dropdown(locator, option, method = :value)
+    Console.log.info "Selecting field: #{locator} \n\toption: #{option}
+      \n\t select method: #{method}"
+    web_element = driver.find_element(locator)
     select_list = Selenium::WebDriver::Support::Select.new(web_element)
     select_list.select_by(method, option)
   end
 
-  def wait_for(seconds=30)
-    Selenium::WebDriver::Wait.new(:timeout => seconds).until { yield }
+  def wait_for(seconds = 30)
+    Selenium::WebDriver::Wait.new(timeout: seconds).until { yield }
   end
-
 end
