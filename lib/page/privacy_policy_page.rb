@@ -1,10 +1,11 @@
 require 'base_page'
 
+# Privacy policy (/privacy-policy) page.
 class PrivacyPolicyPage < BasePage
-  PAGE_URL = '/privacy-policy'
+  PAGE_URL = '/privacy-policy'.freeze
 
-  # locator
-  PAGE_HEADER = { :css => 'h2.pane-title' }
+  # Locator
+  PAGE_HEADER = { css: 'h2.pane-title' }.freeze
 
   def initialize(driver, nav = true)
     super(driver)
@@ -12,8 +13,7 @@ class PrivacyPolicyPage < BasePage
     wait_for { displayed?(PAGE_HEADER) }
   end
 
-  def get_page_header_text
+  def page_header_text
     find(PAGE_HEADER).text
   end
-
 end
