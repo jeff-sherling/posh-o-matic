@@ -1,6 +1,6 @@
 require 'base_page'
 require 'join_signup_step1_error'
-require 'login_modal'
+require 'join_signup_step2'
 
 # First (default) panel of /join/signup page.
 class JoinSignupStep1 < BasePage
@@ -27,6 +27,7 @@ class JoinSignupStep1 < BasePage
   EMAIL_BOX = { id: 'edit-account-fieldgroup-email-mail' }.freeze
   CONFIRM_EMAIL_BOX = { id: confirm_email }.freeze
   PASSWORD_BOX = { id: password }.freeze
+  PASSWORD_STRENGTH = { css: '.password-strength-text' }.freeze
   CONFIRM_PASSWORD_BOX = { id: confirm_password }.freeze
   PHONE_NUMBER_BOX = { id: 'edit-account-fieldgroup-phone-phone-number' }.freeze
   TERMS_CONDITIONS_CBOX = { id: 'edit-account-terms' }.freeze
@@ -48,6 +49,15 @@ class JoinSignupStep1 < BasePage
     populate_form(info) unless info.empty?
     click_on CONTINUE_BTN
     JoinSignupStep1Error.new(@driver)
+  end
+
+  def get_password_strength(info = { password: 'abc' })
+    populate_form info
+    text_of PASSWORD_STRENGTH
+  end
+
+  def password_strength
+    text_of(PASSWORD_STRENGTH)
   end
 
   def signin_modal_present?
@@ -82,12 +92,13 @@ class JoinSignupStep1 < BasePage
     type EMAIL_BOX, info[:email] if info.key?(:email)
     type PASSWORD_BOX, info[:password] if info.key?(:password)
     type CONFIRM_EMAIL_BOX, info[:confirm_email] if info.key?(:confirm_email)
-    type CONFIRM_PASSWORD_BOX, info[:confirm] if info.key?(:confirm)
+    type CONFIRM_PASSWORD_BOX, info[:confirm_password] if
+        info.key?(:confirm_password)
   end
 
   def populate_phone_birth_term(info)
     type PHONE_NUMBER_BOX, info[:phone] if info.key?(:phone)
+    click_on TERMS_CONDITIONS_CBOX if info[:terms]
     type DATE_OF_BIRTH_BOX, info[:birth_date] if info.key?(:birth_date)
-    click_on TERMS_CONDITIONS_CBOX if info.key?(:terms)
   end
 end

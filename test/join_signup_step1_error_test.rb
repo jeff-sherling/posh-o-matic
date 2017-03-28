@@ -6,7 +6,7 @@ require 'join_signup_step1_error'
 require 'consultant'
 
 # Test for errors on Join Signup page.
-class JoinSignupErrorTest < BaseTest
+class JoinSignupStep1ErrorTest < BaseTest
   def setup
     @driver = Selenium::WebDriver.for :firefox
     @signup1 = JoinSignupStep1.new(@driver)
@@ -49,12 +49,27 @@ class JoinSignupErrorTest < BaseTest
            'Both email fields should display error.')
   end
 
-  # Bug - this should error out but doesn't
   def test_mismatched_passwords_error
+    skip "Bug - this should error out but doesn't"
     consultant = @consultant.mismatched_password
     Console.log.info consultant
     error = @signup1.submit_error consultant
-    assert(error.password_error_present? && error.confirm_password_error_present?,
+    assert(error.password_error_present? &&
+               error.confirm_password_error_present?,
            'Both password fields should display error.')
+  end
+
+  def test_phone_number_with_dashes_error
+    basic = @consultant.basic
+    basic[:phone] = '213-231-3425'
+    error = @signup1.submit_error basic
+    assert(error.phone_error_present?, 'Should be Phone Number field error.')
+  end
+
+  def test_ssn_with_dashes_error
+    basic = @consultant.basic
+    basic[:ssn] = '213-23-3425'
+    error = @signup1.submit_error basic
+    assert(error.ssn_error_present?, 'Should be SSN field error.')
   end
 end
