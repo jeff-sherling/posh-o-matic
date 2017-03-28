@@ -1,6 +1,6 @@
 require 'base_page'
 
-# The (company) About page.
+# The Company About (/company-about) page.
 class CompanyAboutPage < BasePage
   PAGE_URL = '/company-about'.freeze
 
@@ -15,7 +15,7 @@ class CompanyAboutPage < BasePage
     visit(PAGE_URL)
     wait_for { displayed?(PAGE_HEADER) }
   end
-  
+
   def pampering_brand_present?
     displayed?(PAGE_HEADER)
   end
