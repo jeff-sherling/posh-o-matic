@@ -44,7 +44,7 @@ class ProductPage < BasePage
 
   def cart_icon_total
     user_bar = UserBar.new(driver)
-    cart_total = user_bar.get_cart_quantity
+    cart_total = user_bar.cart_quantity
     puts "cart_total: #{cart_total}"
     cart_total
   end

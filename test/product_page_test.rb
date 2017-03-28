@@ -22,11 +22,11 @@ class ProductPageTest < BaseTest
 
   def test_cart_qty_incremented
     @user_bar = UserBar.new(@driver)
-    initial_total = @user_bar.get_cart_quantity
+    initial_total = @user_bar.cart_quantity
     @product_page.add_to_cart
     assert(@product_page.success_alert_present?,
            'Success message did not display.')
-    new_total = @user_bar.get_cart_quantity
+    new_total = @user_bar.cart_quantity
     assert(new_total != initial_total, 'Cart quantity should be one (1).')
   end
 end
