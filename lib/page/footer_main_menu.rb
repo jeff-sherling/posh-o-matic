@@ -1,6 +1,7 @@
 require 'base_page'
 require 'join_page'
 require 'ingredients_page'
+require 'cancel_refund_policies_page'
 
 # Main menu footer: Join Posh, Catalog, Ingredients, etc.
 class FooterMainMenu < BasePage
@@ -30,5 +31,10 @@ class FooterMainMenu < BasePage
   def click_ingredients
     click_on INGREDIENTS
     IngredientsPage.new(@driver, false)
+  end
+
+  def click_customer_care
+    click_on CUSTOMER_CARE
+    CancelRefundPoliciesPage.new @driver, false
   end
 end
