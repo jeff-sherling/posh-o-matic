@@ -2,40 +2,43 @@ require 'base_page'
 require 'user_bar'
 require 'user_register_error'
 
+# User Register (/user/register) page.
 class UserRegisterPage < BasePage
-  PAGE_URL = '/user/register'
+  PAGE_URL = '/user/register'.freeze
 
   # locators
-  EMAIL_BOX = { :id => 'edit-mail' }
-  PASSWORD_BOX = { :id => 'edit-pass-pass1' }
-  CONFIRM_PASSWORD_BOX = { :id => 'edit-pass-pass2' }
-  FIRST_NAME_BOX = { :id => 'edit-field-display-name-und-0-given' }
-  LAST_NAME_BOX = { :id => 'edit-field-display-name-und-0-family' }
-  BIRTH_YEAR_FIELD = { :id => 'edit-field-birthdate-und-0-value-year' }
-  BIRTH_MONTH_FIELD = { :id => 'edit-field-birthdate-und-0-value-month' }
-  BIRTH_DAY_FIELD = { :id => 'edit-field-birthdate-und-0-value-day' }
-  GUARDIAN_FIRST_BOX = { :id => 'edit-field-guardian-name-und-0-given' }
-  GUARDIAN_MIDDLE_BOX = { :id => 'edit-field-guardian-name-und-0-middle' }
-  GUARDIAN_LAST_BOX = { :id => 'edit-field-guardian-name-und-0-family' }
-  ACCEPT_CHECKBOX = { :id => 'edit-legal-accept' }
-  CREATE_NEW_ACCOUNT_BTN = { :id => 'edit-submit' }
+  EMAIL_BOX = { id: 'edit-mail' }.freeze
+  PASSWORD_BOX = { id: 'edit-pass-pass1' }.freeze
+  CONFIRM_PASSWORD_BOX = { id: 'edit-pass-pass2' }.freeze
+  FIRST_NAME_BOX = { id: 'edit-field-display-name-und-0-given' }.freeze
+  LAST_NAME_BOX = { id: 'edit-field-display-name-und-0-family' }.freeze
+  BIRTH_YEAR_FIELD = { id: 'edit-field-birthdate-und-0-value-year' }.freeze
+  BIRTH_MONTH_FIELD = { id: 'edit-field-birthdate-und-0-value-month' }.freeze
+  BIRTH_DAY_FIELD = { id: 'edit-field-birthdate-und-0-value-day' }.freeze
+  GUARDIAN_FIRST_BOX = { id: 'edit-field-guardian-name-und-0-given' }.freeze
+  GUARDIAN_MIDDLE_BOX = { id: 'edit-field-guardian-name-und-0-middle' }.freeze
+  GUARDIAN_LAST_BOX = { id: 'edit-field-guardian-name-und-0-family' }.freeze
+  ACCEPT_CHECKBOX = { id: 'edit-legal-accept' }.freeze
+  CREATE_NEW_ACCOUNT_BTN = { id: 'edit-submit' }.freeze
 
-  SUCCESS_ALERT = { :css => '.messages.messages--status' }
+  SUCCESS_ALERT = { css: '.messages.messages--status' }.freeze
 
   def initialize(driver)
     super(driver)
-    visit(PAGE_URL)
-    wait_for { displayed?(CREATE_NEW_ACCOUNT_BTN) }
+    visit PAGE_URL
+    wait_for { displayed?CREATE_NEW_ACCOUNT_BTN }
   end
 
   def create_valid_account(info)
-    submit_customer info
-    UserBar.new(driver)
+    populate_customer info
+    click_on CREATE_NEW_ACCOUNT_BTN
+    UserBar.new @driver
   end
 
   def error_create_account(info = {})
-    submit_customer(info)
-    UserRegisterError.new(driver)
+    populate_customer info unless info.empty?
+    click_on CREATE_NEW_ACCOUNT_BTN
+    UserRegisterError.new @driver
   end
 
   def success_alert_present?
@@ -44,47 +47,40 @@ class UserRegisterPage < BasePage
 
   private
 
-  def submit_customer(info = {})
-    unless info.class == Hash
-      raise 'Submit Customer method requires a Hash.'
-    end
-    if info.has_key?(:email)
-      type EMAIL_BOX, info[:email]
-    end
-    if info.has_key?(:password)
-      type PASSWORD_BOX, info[:password]
-    end
-    if info.has_key?(:confirm)
-      type CONFIRM_PASSWORD_BOX, info[:confirm]
-    end
-    if info.has_key?(:first)
-      type FIRST_NAME_BOX, info[:first]
-    end
-    if info.has_key?(:last)
-      type LAST_NAME_BOX, info[:last]
-    end
-    if info.has_key?(:birth_year)
-      select_dropdown BIRTH_YEAR_FIELD, info[:birth_year]
-    end
-    if info.has_key?(:birth_month)
-      select_dropdown BIRTH_MONTH_FIELD, info[:birth_month]
-    end
-    if info.has_key?(:birth_day)
-      select_dropdown BIRTH_DAY_FIELD, info[:birth_day]
-    end
-    if info.has_key?(:guardian_first)
-      type GUARDIAN_FIRST_BOX, info[:guardian_first]
-    end
-    if info.has_key?(:guardian_middle)
-      type GUARDIAN_MIDDLE_BOX, info[:guardian_middle]
-    end
-    if info.has_key?(:guardian_last)
-      type GUARDIAN_LAST_BOX, info[:guardian_last]
-    end
-    if info.has_key?(:accept) && info[:accept] == true
-      click_on ACCEPT_CHECKBOX
-    end
-    click_on CREATE_NEW_ACCOUNT_BTN
+  def populate_customer(info)
+    raise 'Submit Customer method requires a Hash.' unless info.class == Hash
+    email_password_terms info
+    first_last_name info
+    birth_date info
+    guardian info
   end
 
+  def email_password_terms(info)
+    type EMAIL_BOX, info[:email] if info.key?(:email)
+    type PASSWORD_BOX, info[:password] if info.key?(:password)
+    type CONFIRM_PASSWORD_BOX, info[:confirm] if info.key?(:confirm)
+    click_on ACCEPT_CHECKBOX if info[:accept]
+  end
+
+  def first_last_name(info)
+    type FIRST_NAME_BOX, info[:first] if info.key?(:first)
+    type LAST_NAME_BOX, info[:last] if info.key?(:last)
+  end
+
+  def birth_date(info)
+    select_dropdown BIRTH_YEAR_FIELD, info[:birth_year] if
+        info.key?(:birth_year)
+    select_dropdown BIRTH_MONTH_FIELD, info[:birth_month] if
+        info.key?(:birth_month)
+    select_dropdown BIRTH_DAY_FIELD, info[:birth_day] if
+        info.key?(:birth_day)
+  end
+
+  def guardian(info)
+    type GUARDIAN_FIRST_BOX, info[:guardian_first] if
+        info.key?(:guardian_first)
+    type GUARDIAN_MIDDLE_BOX, info[:guardian_middle] if
+        info.key?(:guardian_last)
+    type GUARDIAN_LAST_BOX, info[:guardian_last] if info.key?(:guardian_last)
+  end
 end
