@@ -1,4 +1,4 @@
-$LOAD_PATH.push '../lib/page'
+$LOAD_PATH.push 'lib/page'
 require 'footer_sub_menu'
 require_relative 'base_test'
 
@@ -6,7 +6,7 @@ require_relative 'base_test'
 class FooterSubMenuTest < BaseTest
   def setup
     @driver = Selenium::WebDriver.for :firefox
-    @sub_menu = FooterSubMenu.new(@driver)
+    @sub_menu = FooterSubMenu.new@driver
   end
 
   def teardown
@@ -31,7 +31,7 @@ class FooterSubMenuTest < BaseTest
   end
 
   def test_copyright_year_is_current
-    assert_includes(@sub_menu.get_copyright, Time.new.year.to_s,
+    assert_includes(@sub_menu.copyright, Time.new.year.to_s,
                     'Copyright year should be current.')
   end
 end
