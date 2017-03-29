@@ -1,16 +1,17 @@
 require 'base_page'
 
+# Shopping Cart (/cart) page when empty
 class ShoppingCartEmpty < BasePage
-  PAGE_URL = '/cart'
+  PAGE_URL = '/cart'.freeze
 
   # Locator
-  CHECKOUT_PROGRESS = { id: 'block-commerce-checkout-progress-indication' }
-  VISIT_SHOP_BTN = { css: ".btn.lime[href$='/products']" }
+  PROGRESS_BAR = { id: 'block-commerce-checkout-progress-indication' }.freeze
+  VISIT_SHOP_BTN = { css: ".btn.lime[href$='/products']" }.freeze
 
   def initialize(driver, nav = true)
     super(driver)
     visit PAGE_URL if nav
-    wait_for { displayed? CHECKOUT_PROGRESS }
+    wait_for { displayed? PROGRESS_BAR }
   end
 
   def click_visit_shop
@@ -21,5 +22,4 @@ class ShoppingCartEmpty < BasePage
   def visit_shop_btn_present?
     wait_for { displayed? VISIT_SHOP_BTN }
   end
-
 end

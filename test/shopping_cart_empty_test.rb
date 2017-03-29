@@ -1,4 +1,4 @@
-$LOAD_PATH.push '../lib/page'
+$LOAD_PATH.push 'lib/page'
 require_relative 'base_test'
 require 'shopping_cart_empty'
 require 'products_page'
