@@ -1,12 +1,12 @@
-$:.push '../lib/page'
+$LOAD_PATH.push 'lib/page'
 require 'login_page'
 require_relative 'base_test'
 
+# Test Login page
 class LoginErrorTest < BaseTest
-
   def setup
     @driver = Selenium::WebDriver.for :firefox
-    @login_page = LoginPage.new(@driver)
+    @login_page = LoginPage.new@driver
   end
 
   def teardown
@@ -37,5 +37,4 @@ class LoginErrorTest < BaseTest
     login_error = @login_page.error_login('zzzzzzzzz999999999', 'abc123')
     assert(login_error.error_alert_present?)
   end
-
 end

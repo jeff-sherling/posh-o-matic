@@ -1,4 +1,4 @@
-$LOAD_PATH.push '../lib/page'
+$LOAD_PATH.push 'lib/page'
 require_relative 'base_test'
 require 'join_page'
 
@@ -14,7 +14,7 @@ class JoinPageTest < BaseTest
   end
 
   def test_join_button_count
-    assert(@join.get_join_button_count >= 3,
+    assert(@join.join_button_count >= 3,
            'There should be 3 or more Join buttons.')
   end
 
