@@ -1,15 +1,16 @@
-$:.push '../lib/page'
-$:.push '../lib/data'
+$LOAD_PATH.push 'lib/page'
+$LOAD_PATH.push 'lib/data'
+$LOAD_PATH.push 'lib/log'
 require 'user_register_page'
 require 'customer'
 require_relative 'base_test'
 
+# Test User Register page.
 class UserRegisterPageTest < BaseTest
-
   def setup
     @driver = Selenium::WebDriver.for :firefox
-    @user_register = UserRegisterPage.new(@driver)
-    @random_customer = Customer.new
+    @register = UserRegisterPage.new(@driver)
+    @customer = Customer.new
   end
 
   def teardown
@@ -17,13 +18,12 @@ class UserRegisterPageTest < BaseTest
   end
 
   def test_create_valid_customer
-    user_bar = @user_register.create_valid_account(@random_customer.get_valid_customer)
-    assert(user_bar.is_referral_link_present?, 'Referral Link is not visible.')
+    @register.create_valid_account(@customer.customer)
+    assert(@register.success_alert_present?, 'Success alert not present.')
   end
 
   def test_create_valid_minor_customer
-    user_bar = @user_register.create_valid_account(@random_customer.get_valid_minor)
-    assert(user_bar.is_referral_link_present?, 'Referral Link is not visible.')
+    @register.create_valid_account(@customer.minor)
+    assert(@register.success_alert_present?, 'Success alert not present.')
   end
-
 end

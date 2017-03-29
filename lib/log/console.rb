@@ -1,7 +1,7 @@
 require 'logger'
 
+# Log to console.
 class Console
-
   def self.log
     if @logger.nil?
       @logger = Logger.new STDOUT
@@ -10,5 +10,4 @@ class Console
     end
     @logger
   end
-
 end

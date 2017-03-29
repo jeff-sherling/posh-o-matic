@@ -1,52 +1,45 @@
-$:.push '../lib/page'
-$:.push '../lib/log'
-require 'shopping_cart_page'
+$LOAD_PATH.push 'lib/page'
 require 'product_page'
-require 'user_bar'
-require 'console'
+require 'products_page'
+require 'shopping_cart_page'
+require 'shopping_cart_empty'
 require_relative 'base_test'
 
+# Test Shopping Cart (/cart) page.
 class ShoppingCartTest < BaseTest
-
   def setup
     @driver = Selenium::WebDriver.for :firefox
-    @product_page = ProductPage.new(@driver, true, '/rolling-deep-chunk')
-    @user_bar = UserBar.new(@driver)
-    # @shopping_cart = ShoppingCartPage.new(@driver)
+    @product_page = ProductPage.new(@driver, '/rolling-deep-chunk')
   end
 
   def teardown
     @driver.quit
   end
 
-  def test_cart_qty_updated_when_shopping
-    # same as next test??
-    Console.log.info "Count is #{@user_bar.get_cart_quantity}."
-    initial_count = @user_bar.get_cart_quantity
-    assert(initial_count == '0', 'Cart quantity should be zero (0).')
+  def test_add_cart_btn_adds_item_to_cart
     @product_page.add_to_cart
-    # TODO: need explicit wait
-    sleep 5
-    next_count = @user_bar.get_cart_quantity
-    Console.log.info "Count is #{next_count}."
-    assert(next_count == '1', 'Cart quantity should be one (1).')
-    #assert(@product_page.is_add_to_cart_successful?, 'Success message did not display.')
-
-    # shopping_cart = ShoppingCartPage.new(@driver)
+    assert(@product_page.success_alert_present?,
+           'Success message did not display.')
+    cart = ShoppingCartPage.new(@driver)
+    assert(cart.get_rows_count == 1, 'Should only be one product in cart.')
   end
 
-  def test_alert_when_item_added_to_cart
-    # same as previous test??
-    Console.log.info "Count is #{@user_bar.get_cart_quantity}."
-    assert(@user_bar.get_cart_quantity == '0', 'Cart quantity should be zero (0).')
+  def test_visit_shop_btn_appears_when_items_removed
     @product_page.add_to_cart
-    # TODO: need explicit wait
-    sleep 2
-    Console.log.info "Count is #{@user_bar.get_cart_quantity}."
-    assert(@user_bar.get_cart_quantity == '1', 'Cart quantity should be one (1).')
-    #assert(@product_page.is_add_to_cart_successful?, 'Success message did not display.')
-
-    # shopping_cart = ShoppingCartPage.new(@driver)
+    assert(@product_page.success_alert_present?,
+           'Success message did not display.')
+    cart = ShoppingCartPage.new(@driver)
+    empty = cart.remove_item
+    assert(empty.visit_shop_btn_present?,
+           'Visit Shop button should be present.')
   end
 
+  def test_continue_shopping_link
+    @product_page.add_to_cart
+    assert(@product_page.success_alert_present?,
+           'Success message did not display.')
+    cart = ShoppingCartPage.new(@driver)
+    products = cart.continue_shopping
+    assert(products.get_product_count == 24, 'Should land on Products page')
+  end
 end

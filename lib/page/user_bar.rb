@@ -2,17 +2,17 @@ require 'base_page'
 
 class UserBar < BasePage
 
-  # Logged in & public locators
-  MY_ACCOUNT = { :id => 'myaccount--link' }
+  # Logged in & public
+  MY_ACCOUNT = { :css => "#myaccount--link[href$='/vo']" }
   CART_QUANTITY = { :css => '.cart-qty' }
 
-  # Logged in only locators
+  # Logged in only
   REFERRAL_LINK = { :id => 'perks-referral-button' }
 
-  # Public only locators
+  # Public only
   FIND_CONSULTANT = { :css => "a[href='/find']" }
 
-  # MY ACCOUNT submenu items
+  # MY ACCOUNT sub-menu items
   LOGOUT = { :css => ".mm-page a[href$='/user/logout']" }
 
   def initialize(driver)

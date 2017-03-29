@@ -1,8 +1,8 @@
 require 'logger'
-#require 'multi_log'
+# require 'multi_log'
 
+# Test log to file.
 class LogFile
-
   date = Time.now.strftime('%h-%d-%Y')
   time = Time.now.strftime('%H-%M-%S')
   path = '~/Library/Logs/automation.' + date + '_' + time + '.log'
@@ -16,5 +16,4 @@ class LogFile
     end
     @logger
   end
-
 end
