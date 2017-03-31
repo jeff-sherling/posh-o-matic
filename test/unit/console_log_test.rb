@@ -1,10 +1,10 @@
-$:.push '../../lib/log'
+$LOAD_PATH.push 'lib/log'
 require 'console'
 require 'minitest/autorun'
 require 'minitest/reporters'
 
+# Test Console Log class
 class ConsoleLogTest < Minitest::Test
-
   Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new,
                             Minitest::Reporters::JUnitReporter.new]
 
@@ -14,7 +14,7 @@ class ConsoleLogTest < Minitest::Test
     end
     puts "\ntest_info: #{out}"
     assert(out.include?('INFO'), 'Info not writing to StdOut.')
-    assert(err.size == 0, 'Info writing to StdErr.')
+    assert(err.empty?, 'Info writing to StdErr.')
   end
 
   def test_debug
@@ -23,7 +23,7 @@ class ConsoleLogTest < Minitest::Test
     end
     puts "\ntest_debug: #{out}"
     assert(out.include?('DEBUG'), 'Debug not writing to StdOut.')
-    assert(err.size == 0, 'Debug writing to StdErr.')
+    assert(err.empty?, 'Debug writing to StdErr.')
   end
 
   def test_warn
@@ -32,7 +32,7 @@ class ConsoleLogTest < Minitest::Test
     end
     puts "\ntest_warn: #{out}"
     assert(out.include?('WARN'), 'Warn not writing to StdOut.')
-    assert(err.size == 0, 'Warn writing to StdErr.')
+    assert(err.empty?, 'Warn writing to StdErr.')
   end
 
   def test_error
@@ -41,7 +41,7 @@ class ConsoleLogTest < Minitest::Test
     end
     puts "\ntest_error: #{out}"
     assert(out.include?('ERROR'), 'Error not writing to StdOut.')
-    assert(err.size == 0, 'Error writing to StdErr.')
+    assert(err.empty?, 'Error writing to StdErr.')
   end
 
   def test_fatal
@@ -50,7 +50,7 @@ class ConsoleLogTest < Minitest::Test
     end
     puts "\ntest_fatal: #{out}"
     assert(out.include?('FATAL'), 'Fatal not writing to StdOut.')
-    assert(err.size == 0, 'Fatal writing to StdErr.')
+    assert(err.empty?, 'Fatal writing to StdErr.')
   end
 
   def test_unknown
@@ -59,7 +59,6 @@ class ConsoleLogTest < Minitest::Test
     end
     puts "\ntest_unknown: #{out}"
     assert(out.include?('ANY'), 'Unknown not writing to StdOut.')
-    assert(err.size == 0, 'Unknown writing to StdErr.')
+    assert(err.empty?, 'Unknown writing to StdErr.')
   end
-
 end
