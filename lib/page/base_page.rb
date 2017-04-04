@@ -18,24 +18,19 @@ class BasePage
   end
 
   def find(locator)
-    begin
-      puts ''
-      @driver.find_element locator
-    rescue Selenium::WebDriver::Error::NoSuchElementError => e
-      Console.log.info "Unable to find #{locator}\n\t#{e.message}"
-      raise NoSuchElementError
-    end
+    @driver.find_element locator
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    Console.log.info "Unable to find #{locator}\n\t#{e.message}"
+    raise NoSuchElementError
   end
 
   def find_elements(locator)
     # Returns array of elements matching locator
-    begin
-      Console.log.info "Locator array #{locator}"
-      @driver.find_elements locator
-    rescue Selenium::WebDriver::Error::NoSuchElementError
-      Console.log.info "Unable to find #{locator}"
-      raise Selenium::WebDriver::Error::NoSuchElementError
-    end
+    Console.log.info "Locator array #{locator}"
+    @driver.find_elements locator
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    Console.log.info "Unable to find #{locator}\n\t#{e.message}"
+    raise Selenium::WebDriver::Error::NoSuchElementError
   end
 
   # Clear text field
@@ -50,6 +45,7 @@ class BasePage
     @driver.send_keys(:delete)
   end
 
+  # Type methods
   def type(locator, input)
     Console.log.info "Sending '#{input}' to #{locator}"
     find(locator).send_keys input
@@ -65,6 +61,7 @@ class BasePage
     @driver.execute_script(js_string)
   end
 
+  # Click methods
   def click_on(locator)
     Console.log.info "Clicking #{locator}"
     find(locator).click
@@ -77,6 +74,14 @@ class BasePage
 
   def displayed?(locator)
     if @driver.find_element(locator).displayed?
+      true
+    else
+      false
+    end
+  end
+
+  def enabled?(locator)
+    if @driver.find_element(locator).enabled?
       true
     else
       false
@@ -110,5 +115,10 @@ class BasePage
 
   def wait_for(seconds = 30)
     Selenium::WebDriver::Wait.new(timeout: seconds).until { yield }
+  end
+
+  def hover(locator)
+    Console.log.info "Hovering over #{locator}"
+    @driver.action.move_to(locator).perform
   end
 end
