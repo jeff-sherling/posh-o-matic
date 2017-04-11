@@ -20,6 +20,13 @@ class LoginTest < BaseTest
     assert(user_bar.find_consultant_link_present?, 'User still logged in.')
   end
 
+  def test_cta_links_hidden_for_logged_in_consultant
+    user_bar = @login_page.valid_login('TopConsultant', '5%4N0thing')
+    assert(!user_bar.become_consultant_link_present? &&
+            !user_bar.find_consultant_link_present?,
+           'Become a Posh Consultant link should be hidden.')
+  end
+
   def test_customer_can_login_and_logout
     user_bar = @login_page.valid_login('richard.the.lionheart@mailinator.com',
                                        'abc123')

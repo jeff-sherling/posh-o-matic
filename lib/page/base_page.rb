@@ -1,5 +1,6 @@
 require 'selenium-webdriver'
 require 'selenium/webdriver/common/action_builder'
+require 'selenium/webdriver/common/error'
 $LOAD_PATH.push 'lib/log'
 require 'console'
 
@@ -18,22 +19,18 @@ class BasePage
   end
 
   def find(locator)
-    rescue_exceptions { @driver.find_element locator }
+    @driver.find_element locator
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    Console.log.info "Unable to find element.\n\t#{e.message}"
+    raise Selenium::WebDriver::Error::NoSuchElementError
   end
 
   def find_elements(locator)
     Console.log.info "Locator array #{locator}"
-    rescue_exceptions { @driver.find_elements locator }
-  end
-
-  def rescue_exceptions
-    yield
+    @driver.find_elements locator
   rescue Selenium::WebDriver::Error::NoSuchElementError => e
     Console.log.info "Unable to find element.\n\t#{e.message}"
-    raise NoSuchElementError
-  rescue Selenium::WebDriver::Error::StaleElementReferenceError => e
-    Console.log.info "Element is stale.\n\t#{e.message}"
-    raise StaleElementReferenceError
+    raise Selenium::WebDriver::Error::NoSuchElementError
   end
 
   # Clear text field
@@ -57,8 +54,7 @@ class BasePage
 
   def js_type(locator, input)
     # For now, send locator, not a hash:
-    # e.g., '#edit-mail', not {:css => "#edit-mail"}
-    # TODO: extract locator from hash; behavior should match 'type' method
+    # e.g., '#edit-mail', not {:css => "#edit-mail"}; TODO: extract locator
     Console.log.info "Sending '#{input}' to '#{locator}' via JS Execute."
     element = find locator
     js_string = "document.querySelector('" + element + "').setAttribute(
@@ -79,12 +75,27 @@ class BasePage
 
   def displayed?(locator)
     Console.log.info "Is displayed? #{locator}"
-    find(locator).displayed?
+    rescue_exceptions { @driver.find_element(locator).displayed? }
   end
 
   def enabled?(locator)
     Console.log.info "Is enabled? #{locator}"
-    find(locator).enabled?
+    rescue_exceptions { @driver.find_element(locator).enabled? }
+  end
+
+  def selected?(locator)
+    Console.log.info "Is selected? #{locator}"
+    rescue_exceptions { @driver.find_element(locator).selected? }
+  end
+
+  def rescue_exceptions
+    yield
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    Console.log.info "Unable to find element.\n\t#{e.message}"
+    false
+  rescue Selenium::WebDriver::Error::StaleElementReferenceError => e
+    Console.log.info "Element is stale.\n\t#{e.message}"
+    false
   end
 
   def text_of(locator)
@@ -106,9 +117,8 @@ class BasePage
 
   def select_dropdown(locator, option, method = :value)
     Console.log.info "Selecting field: #{locator} \n\toption: #{option}
-    select method: #{method}"
-    web_element = find locator
-    select_list = Selenium::WebDriver::Support::Select.new(web_element)
+      select method: #{method}"
+    select_list = Selenium::WebDriver::Support::Select.new(find(locator))
     select_list.select_by(method, option)
   end
 
