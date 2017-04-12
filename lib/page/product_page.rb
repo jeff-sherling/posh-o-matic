@@ -15,8 +15,8 @@ class ProductPage < BasePage
 
   def initialize(driver, prod_url = '/gender-bender-chunk', nav = true)
     super(driver)
-    visit(prod_url) if nav
-    wait_for { displayed?(PROD_PHOTO) }
+    visit prod_url if nav
+    wait_for { displayed?PROD_PHOTO }
   end
 
   def shop_and_checkout
@@ -25,7 +25,7 @@ class ProductPage < BasePage
   end
 
   def add_to_cart
-    if displayed?(ADD_TO_CART)
+    if displayed? ADD_TO_CART
       click_on ADD_TO_CART
     else
       Console.log.info "Unable to find 'Add To Cart' button."
@@ -35,17 +35,14 @@ class ProductPage < BasePage
   end
 
   def item_in_stock?
-    wait_for(5) { displayed?(OUT_OF_STOCK) }
+    wait_for(5) { displayed?OUT_OF_STOCK }
   end
 
   def success_alert_present?
-    wait_for(10) { displayed?(SUCCESS_ALERT) }
+    wait_for(10) { displayed?SUCCESS_ALERT }
   end
 
   def cart_icon_total
-    user_bar = UserBar.new(driver)
-    cart_total = user_bar.cart_quantity
-    puts "cart_total: #{cart_total}"
-    cart_total
+    UserBar.new(@driver, false).cart_quantity
   end
 end
