@@ -9,6 +9,8 @@ class LandingPage < BasePage
   PUBLIC_LANDING = { css: '.front.not-logged-in' }.freeze
   PRIVATE_LANDING = { css: '.front.logged-in' }.freeze
 
+  REGISTRATION_SUCCESSFUL_ALERT = { css: '.messages.messages--status' }.freeze
+
   def initialize(driver, nav = true)
     super(driver)
     visit PAGE_URL if nav
@@ -23,5 +25,9 @@ class LandingPage < BasePage
   # Only viewed after login
   def logged_in?
     wait_for { displayed? PRIVATE_LANDING }
+  end
+
+  def success_alert_present?
+    displayed? REGISTRATION_SUCCESSFUL_ALERT
   end
 end

@@ -1,6 +1,6 @@
 require 'base_page'
-require 'user_bar'
 require 'user_register_error'
+require 'landing_page'
 
 # User Register (/user/register) page.
 class UserRegisterPage < BasePage
@@ -21,28 +21,22 @@ class UserRegisterPage < BasePage
   ACCEPT_CHECKBOX = { id: 'edit-legal-accept' }.freeze
   CREATE_NEW_ACCOUNT_BTN = { id: 'edit-submit' }.freeze
 
-  SUCCESS_ALERT = { css: '.messages.messages--status' }.freeze
-
-  def initialize(driver)
+  def initialize(driver, nav = true)
     super(driver)
-    visit PAGE_URL
+    visit PAGE_URL if nav
     wait_for { displayed?CREATE_NEW_ACCOUNT_BTN }
   end
 
   def create_valid_account(info)
     populate_customer info
     click_on CREATE_NEW_ACCOUNT_BTN
-    UserBar.new @driver
+    LandingPage.new @driver, false
   end
 
   def error_create_account(info = {})
     populate_customer info unless info.empty?
     click_on CREATE_NEW_ACCOUNT_BTN
     UserRegisterError.new @driver
-  end
-
-  def success_alert_present?
-    displayed? SUCCESS_ALERT
   end
 
   private
