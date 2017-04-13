@@ -51,6 +51,12 @@ class JoinSignupStep1 < BasePage
     JoinSignupStep1Error.new(@driver)
   end
 
+  def phone_password_error(info = {})
+    populate_email_password info unless info.empty?
+    click_on TERMS_CONDITIONS_CBOX
+    JoinSignupStep1Error.new@driver
+  end
+
   def get_password_strength(info = { password: 'abc' })
     populate_form info
     text_of PASSWORD_STRENGTH
