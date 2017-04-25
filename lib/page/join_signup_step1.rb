@@ -29,6 +29,8 @@ class JoinSignupStep1 < BasePage
   PASSWORD_BOX = { id: password }.freeze
   PASSWORD_STRENGTH = { css: '.password-strength-text' }.freeze
   CONFIRM_PASSWORD_BOX = { id: confirm_password }.freeze
+  PASSWORDS_MATCH_YES = { css: '.password-confirm > span.ok' }.freeze
+  PASSWORDS_MATCH_NO = { css: '.password-confirm > span.error' }.freeze
   PHONE_NUMBER_BOX = { id: 'edit-account-fieldgroup-phone-phone-number' }.freeze
   TERMS_CONDITIONS_CBOX = { id: 'edit-account-terms' }.freeze
   CONTINUE_BTN = { id: 'edit-account-submit' }.freeze
@@ -62,8 +64,15 @@ class JoinSignupStep1 < BasePage
     text_of PASSWORD_STRENGTH
   end
 
-  def password_strength
-    text_of(PASSWORD_STRENGTH)
+  def passwords_match?(info)
+    populate_form(info)
+    if displayed? PASSWORDS_MATCH_YES
+      true
+    elsif displayed? PASSWORDS_MATCH_NO
+      false
+    else
+      false
+    end
   end
 
   def signin_modal_present?
@@ -103,8 +112,8 @@ class JoinSignupStep1 < BasePage
   end
 
   def populate_phone_birth_term(info)
-    type PHONE_NUMBER_BOX, info[:phone] if info.key?(:phone)
-    click_on TERMS_CONDITIONS_CBOX if info[:terms]
     type DATE_OF_BIRTH_BOX, info[:birth_date] if info.key?(:birth_date)
+    click_on TERMS_CONDITIONS_CBOX if info[:terms]
+    type PHONE_NUMBER_BOX, info[:phone] if info.key?(:phone)
   end
 end
