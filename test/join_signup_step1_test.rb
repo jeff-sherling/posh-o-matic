@@ -1,8 +1,6 @@
 $LOAD_PATH.push 'lib/page'
 $LOAD_PATH.push 'lib/data'
 require 'join_signup_step1'
-require 'join_signup_step2'
-require 'login_modal'
 require 'consultant'
 require_relative 'base_test'
 
