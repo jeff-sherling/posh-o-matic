@@ -115,6 +115,7 @@ class BasePage
     @driver.current_url
   end
 
+  # Method is :value or :text and should match option attribute value
   def select_dropdown(locator, option, method = :value)
     Console.log.info "Selecting field: #{locator} \n\toption: #{option}
       select method: #{method}"

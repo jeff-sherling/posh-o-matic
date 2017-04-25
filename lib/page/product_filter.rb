@@ -5,6 +5,7 @@ require 'products_page'
 class ProductFilter < BasePage
   PAGE_URL = '/products'.freeze
 
+  FILTERED_VIEW_HEADING = { css: '.views-field-nothing > span > h2' }.freeze
   HANDS_AND_FEET_CBOX = { id: 'handsfeet' }.freeze
   FACE_AND_LIPS_CBOX = { id: 'facelips' }.freeze
   BODY_CBOX = { id: 'body' }.freeze
@@ -21,6 +22,11 @@ class ProductFilter < BasePage
     super driver
     visit PAGE_URL if nav
     wait_for { displayed? APPLY_BTN }
+  end
+
+  def filtered_content_heading?
+    # Appears after selecting Products/Collections submenu item
+    text_of FILTERED_VIEW_HEADING
   end
 
   def filter_checkbox(checkbox = BATH_CBOX)

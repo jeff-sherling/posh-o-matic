@@ -12,7 +12,7 @@ class BaseTest < Minitest::Test
 
   STAGE = 'http://stage.perfectlyposh.com.c.perfectlyposh.dev.ent.platform.sh/p'.freeze
   DEV = 'https://develop-g4p7lpmywlbys.us.platform.sh/p'.freeze
-  # PREFIX = 'feature-spring-lqw5hlq'
-  # ENV['base_url'] = 'https://' + PREFIX + '-g4p7lpmywlbys.us.platform.sh/p'
+  test = 'rc5-13-7-r4z24da'
+  CLOUD = "https://#{test}-g4p7lpmywlbys.us.platform.sh/p".freeze
   ENV['base_url'] = DEV
 end
