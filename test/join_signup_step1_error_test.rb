@@ -36,21 +36,21 @@ class JoinSignupStep1ErrorTest < BaseTest
   def test_invalid_email_error
     consultant = @consultant.invalid_email
     Console.log.info consultant
-    error = @signup1.submit_error consultant
-    assert(error.email_error_present? && error.confirm_email_error_present?,
+    error = @signup1.phone_password_error consultant
+    assert(error.email_error_present? && error.confirm_email_message_present?,
            'Both email fields should display error.')
   end
 
   def test_mismatched_email_error
     consultant = @consultant.mismatched_email
     Console.log.info consultant
-    error = @signup1.submit_error consultant
+    error = @signup1.phone_password_error consultant
     assert(error.confirm_email_message_present?,
            'Both email fields should display error.')
   end
 
   def test_mismatched_passwords_error
-    skip "Bug - this should error out but doesn't"
+    skip "Bug 8037: mismatching passwords don't error out until last step"
     consultant = @consultant.mismatched_password
     Console.log.info consultant
     error = @signup1.submit_error consultant

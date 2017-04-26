@@ -6,17 +6,16 @@ class UserFactory
     end
 
     def get_invalid_email(length = 15)
-      bad_address = %w(
-        @mailinator @@@mailinator.com @mailinator,,com @mailinator...com
-        @:mailinator:com mailinator.com
-      )
-      get_random_string(length) + bad_address[rand(bad_address.size)]
+      bad_address = %w(@mailinator @@@mailinator.com @mailinator,,com
+                       @mailinator...com @:mailinator:com mailinator.com)
+      get_random_string(length) + bad_address.sample
     end
 
     def get_email(length = 10)
       # e.g., auto_kRtHdnpoQw.RAdckTkpks@mailinator.com
-      'auto_' + get_random_string(length) + '.' + get_random_string(length) +
-        '@mailinator.com'
+      first = get_random_string(length)
+      last = get_random_string(length)
+      "auto_#{first}.#{last}@mailinator.com"
     end
 
     def birth_date
@@ -71,26 +70,26 @@ class UserFactory
 
     def address1
       direction = %w(N S E W NW NE SE SW)
-      street = %w(Alder Apple Ash Aspen Basswood Birch Buckeye Cedar Cherry
-                  Chestnut Cottonwood Cypress Dogwood Elm Filbert Fir Hazel
-                  Hawthorn Hemlock Holly Juniper Larch Locust Madrone Mahogany
-                  Maple Myrtle Oak Pear Pine Plum Poplar Redwood Olive
-                  Sequoia Spruce Sweetgum Sycamore Walnut Willow Yew)
-      road = %w(Ave Blvd Ct Dr Ln Rd Pl St Trl Way)
-      address = "#{1 + rand(9999)} " + direction[rand(direction.size)]
-      address << " #{street[rand(street.size)]} #{road[rand(road.size)]}"
+      street_name = %w(Alder Apple Ash Aspen Basswood Birch Buckeye Cedar Cherry
+                       Chestnut Cottonwood Cypress Dogwood Elm Filbert Fir Hazel
+                       Hawthorn Hemlock Holly Juniper Larch Locust Madrone
+                       Mahogany Maple Myrtle Oak Pear Pine Plum Poplar Redwood
+                       Olive Sequoia Spruce Sweetgum Sycamore Walnut Willow Yew)
+      road_type = %w(Ave Blvd Ct Dr Ln Rd Pl St Trl Way)
+      address = "#{1 + rand(9999)} #{direction.sample}"
+      address << " #{street_name.sample} #{road_type.sample}"
     end
 
     def address2
-      dwelling = %w(Apt Flat Lot Office Room Studio Suite)
-      dwelling[rand(dwelling.size)] + " #{1 + rand(999)}"
+      dwelling_type = %w(Apt Flat Lot Office Room Studio Suite)
+      "#{dwelling_type.sample} #{1 + rand(999)}"
     end
 
     def state_province
-      states = %w(AL AK AS AZ AR CA CO CT DC DE FL GA HI ID IL IN IA KS KY LA ME
-                  MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA PR RI
-                  SC SD TN TX UT VT VA WA WV WI WY)
-      states[rand(states.size)]
+      states = %w(AL AK AZ AR CA CO CT DC DE FL GA HI ID IL IN IA KS KY LA
+                  MA MD ME MI MN MO MS MT NE NV NH NJ NM NY NC ND OH OK OR
+                  PA RI SC SD TN TX UT VT VA WA WV WI WY)
+      states.sample
     end
 
     private
@@ -101,7 +100,7 @@ class UserFactory
       end
       chars = ('a'..'z').to_a
       random_string = ''
-      length.times { random_string << chars[rand(chars.size)] }
+      length.times { random_string << chars.sample }
       random_string
     end
   end

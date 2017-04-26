@@ -10,9 +10,9 @@ class CompanyAboutPage < BasePage
   H1_HEADER = { css: 'h1.about-h1' }.freeze
   H2_HEADER = { css: 'h2' }.freeze
 
-  def initialize(driver)
+  def initialize(driver, nav = true)
     super(driver)
-    visit(PAGE_URL)
+    visit(PAGE_URL) if nav
     wait_for { displayed?(PAGE_HEADER) }
   end
 

@@ -9,7 +9,7 @@ require_relative 'base_test'
 class ShoppingCartTest < BaseTest
   def setup
     @driver = Selenium::WebDriver.for :firefox
-    @product_page = ProductPage.new(@driver, '/rolling-deep-chunk')
+    @product_page = ProductPage.new@driver, '/rolling-deep-chunk'
   end
 
   def teardown
@@ -20,15 +20,15 @@ class ShoppingCartTest < BaseTest
     @product_page.add_to_cart
     assert(@product_page.success_alert_present?,
            'Success message did not display.')
-    cart = ShoppingCartPage.new(@driver)
-    assert(cart.get_rows_count == 1, 'Should only be one product in cart.')
+    cart = ShoppingCartPage.new@driver
+    assert(cart.row_count == 1, 'Should only be one product in cart.')
   end
 
   def test_visit_shop_btn_appears_when_items_removed
     @product_page.add_to_cart
     assert(@product_page.success_alert_present?,
            'Success message did not display.')
-    cart = ShoppingCartPage.new(@driver)
+    cart = ShoppingCartPage.new@driver
     empty = cart.remove_item
     assert(empty.visit_shop_btn_present?,
            'Visit Shop button should be present.')
@@ -38,7 +38,7 @@ class ShoppingCartTest < BaseTest
     @product_page.add_to_cart
     assert(@product_page.success_alert_present?,
            'Success message did not display.')
-    cart = ShoppingCartPage.new(@driver)
+    cart = ShoppingCartPage.new@driver
     products = cart.continue_shopping
     assert(products.get_product_count == 24, 'Should land on Products page')
   end

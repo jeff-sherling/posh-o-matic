@@ -11,8 +11,6 @@ class JoinSignupStep1Test < BaseTest
   def setup
     @driver = Selenium::WebDriver.for :firefox
     @signup1 = JoinSignupStep1.new(@driver)
-    # rep_site = @driver.current_url.sub('/p/', '/HEATHER/')
-    # @driver.get rep_site
     @consultant = Consultant.new.valid_consultant
   end
 
@@ -41,5 +39,17 @@ class JoinSignupStep1Test < BaseTest
     strong = { password: 'abc!123' }
     assert(@signup1.get_password_strength(strong) == 'Strong',
            'Password strength should be Strong.')
+  end
+
+  def test_label_displays_yes_when_passwords_match
+    match = { password: 'abc123', confirm_password: 'abc123' }
+    assert(@signup1.passwords_match?(match),
+           'Passwords Match label should display Yes.')
+  end
+
+  def test_label_displays_no_when_passwords_mismatched
+    mismatch = { password: 'abc123', confirm_password: 'abc' }
+    assert_equal(false, @signup1.passwords_match?(mismatch),
+                 'Passwords Match label should display No.')
   end
 end

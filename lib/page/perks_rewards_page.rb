@@ -1,50 +1,29 @@
 require 'base_page'
 require 'get_started_page'
 
+# Perks Rewards (/perks-rewards) page
 class PerksRewardsPage < BasePage
-  PAGE_URL = '/perks-rewards'
+  PAGE_URL = '/perks-rewards'.freeze
 
-  GET_PERKY_WITH_US = { :css => ".hidden-xs a[href='/start']" }
-  GET_STARTED = { :css => 'a.perks-btn' }
-  EARN_BOX = { :css => '.earn-box' }
-  FAQ_LINK = { :css => 'a.faq-link' }
-  REDEEM_BOX = { :css => '.redeem-box'}
-  FAQ_HEADING = { :id => 'faq'}
-  TERMS_HEADING = { :css => '.terms-h1 a' }
+  GET_STARTED_BTN = { css: ".perks-button a[href='/start']" }.freeze
+  BANNER_CONTAINER = { css: "div[class$='banner-container']" }.freeze
 
   def initialize(driver, nav = true)
     super(driver)
     visit PAGE_URL if nav
-    wait_for { displayed? GET_PERKY_WITH_US }
+    wait_for { displayed? GET_STARTED_BTN }
+  end
+
+  def banner_container_count
+    find_elements(BANNER_CONTAINER).size
   end
 
   def click_get_started
-    click_on GET_STARTED
+    click_on GET_STARTED_BTN
     GetStartedPage.new(driver, false)
   end
 
-  def get_started_count
-    find_elements(GET_STARTED).size
+  def started_button_count
+    find_elements(GET_STARTED_BTN).size
   end
-
-  def get_earn_box_count
-    find_elements(EARN_BOX).size
-  end
-
-  def get_faq_link_count
-    find_elements(FAQ_LINK).size
-  end
-
-  def get_redeem_box_count
-    find_elements(REDEEM_BOX).size
-  end
-
-  def faq_heading_present?
-    wait_for(5) { displayed? FAQ_HEADING }
-  end
-
-  def terms_heading_present?
-    wait_for(5) { displayed? TERMS_HEADING}
-  end
-
 end

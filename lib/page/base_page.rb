@@ -1,5 +1,6 @@
 require 'selenium-webdriver'
 require 'selenium/webdriver/common/action_builder'
+require 'selenium/webdriver/common/error'
 $LOAD_PATH.push 'lib/log'
 require 'console'
 
@@ -18,24 +19,18 @@ class BasePage
   end
 
   def find(locator)
-    begin
-      puts ''
-      @driver.find_element locator
-    rescue Selenium::WebDriver::Error::NoSuchElementError => e
-      Console.log.info "Unable to find #{locator}\n\t#{e.message}"
-      raise NoSuchElementError
-    end
+    @driver.find_element locator
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    Console.log.info "Unable to find element.\n\t#{e.message}"
+    raise Selenium::WebDriver::Error::NoSuchElementError
   end
 
   def find_elements(locator)
-    # Returns array of elements matching locator
-    begin
-      Console.log.info "Locator array #{locator}"
-      @driver.find_elements locator
-    rescue Selenium::WebDriver::Error::NoSuchElementError
-      Console.log.info "Unable to find #{locator}"
-      raise Selenium::WebDriver::Error::NoSuchElementError
-    end
+    Console.log.info "Locator array #{locator}"
+    @driver.find_elements locator
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    Console.log.info "Unable to find element.\n\t#{e.message}"
+    raise Selenium::WebDriver::Error::NoSuchElementError
   end
 
   # Clear text field
@@ -46,10 +41,12 @@ class BasePage
 
   def alt_clear(locator)
     Console.log.info "Clearing text field via Ctrl + A, Delete (#{locator})"
-    @driver.send_keys(:control, 'a')
-    @driver.send_keys(:delete)
+    element = find locator
+    element.send_keys(:control, 'a')
+    element.send_keys(:delete)
   end
 
+  # Type methods
   def type(locator, input)
     Console.log.info "Sending '#{input}' to #{locator}"
     find(locator).send_keys input
@@ -57,14 +54,15 @@ class BasePage
 
   def js_type(locator, input)
     # For now, send locator, not a hash:
-    # e.g., '#edit-mail', not {:css => "#edit-mail"}
-    # TODO: extract locator from hash; behavior should match 'type' method
+    # e.g., '#edit-mail', not {:css => "#edit-mail"}; TODO: extract locator
     Console.log.info "Sending '#{input}' to '#{locator}' via JS Execute."
-    js_string = "document.querySelector('" + locator.to_s + "').setAttribute(
+    element = find locator
+    js_string = "document.querySelector('" + element + "').setAttribute(
       'value', '" + input.to_s + "');"
     @driver.execute_script(js_string)
   end
 
+  # Click methods
   def click_on(locator)
     Console.log.info "Clicking #{locator}"
     find(locator).click
@@ -76,39 +74,62 @@ class BasePage
   end
 
   def displayed?(locator)
-    if @driver.find_element(locator).displayed?
-      true
-    else
-      false
-    end
+    Console.log.info "Is displayed? #{locator}"
+    rescue_exceptions { @driver.find_element(locator).displayed? }
+  end
+
+  def enabled?(locator)
+    Console.log.info "Is enabled? #{locator}"
+    rescue_exceptions { @driver.find_element(locator).enabled? }
+  end
+
+  def selected?(locator)
+    Console.log.info "Is selected? #{locator}"
+    rescue_exceptions { @driver.find_element(locator).selected? }
+  end
+
+  def rescue_exceptions
+    yield
+  rescue Selenium::WebDriver::Error::NoSuchElementError => e
+    Console.log.info "Unable to find element.\n\t#{e.message}"
+    false
+  rescue Selenium::WebDriver::Error::StaleElementReferenceError => e
+    Console.log.info "Element is stale.\n\t#{e.message}"
+    false
   end
 
   def text_of(locator)
     element_text = find(locator).text
-    Console.log.info "Getting element text #{element_text}"
+    Console.log.info "Element text of #{locator} is:\n\t #{element_text}"
     element_text
   end
 
   def page_title
-    page_title = driver.title
-    Console.log.info "Getting title #{page_title}"
+    page_title = @driver.title
+    Console.log.info "Page title: #{page_title}"
     page_title
   end
 
   def page_url
-    Console.log.info "Getting URL #{driver.current_url}"
-    driver.current_url
+    Console.log.info "Page URL: #{driver.current_url}"
+    @driver.current_url
   end
 
+  # Method is :value or :text and should match option attribute value
   def select_dropdown(locator, option, method = :value)
     Console.log.info "Selecting field: #{locator} \n\toption: #{option}
-      \n\t select method: #{method}"
-    web_element = driver.find_element(locator)
-    select_list = Selenium::WebDriver::Support::Select.new(web_element)
+      select method: #{method}"
+    select_list = Selenium::WebDriver::Support::Select.new(find(locator))
     select_list.select_by(method, option)
   end
 
   def wait_for(seconds = 30)
+    Console.log.info "Explicit wait up to #{seconds} seconds for..."
     Selenium::WebDriver::Wait.new(timeout: seconds).until { yield }
+  end
+
+  def hover(locator)
+    Console.log.info "Hovering over #{locator}"
+    @driver.action.move_to(locator).perform
   end
 end

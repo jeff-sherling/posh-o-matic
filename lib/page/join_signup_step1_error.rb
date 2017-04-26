@@ -21,7 +21,7 @@ class JoinSignupStep1Error < BasePage
   phone_error = "#{prefix}phone-phone-number.error"
 
   # Locators
-  ERROR = { css: '.error' }.freeze
+  ERROR = { css: '.error,.messages--error' }.freeze
   INPUT_ERROR = { css: 'input.error' }.freeze
   LABEL_ERROR = { css: 'label.error' }.freeze
   SELECT_ERROR = { css: 'select.error' }.freeze
@@ -44,7 +44,7 @@ class JoinSignupStep1Error < BasePage
   TERMS_CONDITIONS_ERROR = { css: '#edit-account-terms.error' }.freeze
 
   def initialize(driver)
-    @driver = driver
+    super(driver)
     wait_for(10) { displayed?(ERROR) }
   end
 

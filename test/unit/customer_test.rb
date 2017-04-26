@@ -31,26 +31,26 @@ class CustomerTest < Minitest::Test
   def test_customer
     customer = @customer.customer
     Console.log.info "Customer: #{customer}"
-    assert(customer.size == 7, "Size should be 7, but is #{customer.size}.")
+    assert(customer.size == 9, "Size should be 9, but is #{customer.size}.")
   end
 
   def test_mismatched_passwords
     mismatched = @customer.mismatched_passwords
-    Console.log.info "Customer: #{mismatched}"
-    assert(mismatched.size == 7, "Size should be 7, but is #{mismatched.size}.")
+    Console.log.info "Mismatched passwords: #{mismatched}"
+    assert(mismatched.size == 9, "Size should be 9, but is #{mismatched.size}.")
     assert(mismatched[:password] != mismatched[:confirm],
            'Password and Confirm should not match.')
   end
 
   def test_minor
     minor = @customer.minor
-    Console.log.info "Customer: #{minor}"
-    assert(minor.size == 10, "Size should be 10, but is #{minor.size}.")
+    Console.log.info "Minor: #{minor}"
+    assert(minor.size == 12, "Size should be 12, but is #{minor.size}.")
   end
 
   def test_missing_guardian
     minor = @customer.missing_guardian
-    Console.log.info "Customer: #{minor}"
-    assert(minor.size == 9, "Size should be 9, but is #{minor.size}.")
+    Console.log.info "Missing Guardian: #{minor}"
+    assert(minor.size == 11, "Size should be 11, but is #{minor.size}.")
   end
 end
