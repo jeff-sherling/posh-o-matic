@@ -61,7 +61,7 @@ class UserFactory
     end
 
     def phone
-      format '%010d', 1 + rand(9_999_999_999)
+      area_code + (format '%07d', 1_000_000 + rand(8_999_999))
     end
 
     def ssn
@@ -69,34 +69,45 @@ class UserFactory
     end
 
     def address1
-      direction = %w(N S E W NW NE SE SW)
-      street_name = %w(Alder Apple Ash Aspen Basswood Birch Buckeye Cedar Cherry
-                       Chestnut Cottonwood Cypress Dogwood Elm Filbert Fir Hazel
-                       Hawthorn Hemlock Holly Juniper Larch Locust Madrone
-                       Mahogany Maple Myrtle Oak Pear Pine Plum Poplar Redwood
-                       Olive Sequoia Spruce Sweetgum Sycamore Walnut Willow Yew)
-      road_type = %w(Ave Blvd Ct Dr Ln Rd Pl St Trl Way)
-      address = "#{1 + rand(9999)} #{direction.sample}"
-      address << " #{street_name.sample} #{road_type.sample}"
+      direction = %w(N S E W NW NE SE SW).sample
+      street_name = %w(Alder Apple Ash Aspen Basswood Birch Buckeye Cedar
+                       Cherry Chestnut Cottonwood Cypress Dogwood Elm Filbert
+                       Fir Hazel Hawthorn Hemlock Holly Juniper Larch Locust
+                       Madrone Mahogany Maple Myrtle Oak Pear Pine Plum Poplar
+                       Redwood Olive Sequoia Spruce Sweetgum Sycamore Walnut
+                       Willow Yew).sample
+      road_type = %w(Ave Blvd Ct Dr Ln Rd Pl St Trl Way).sample
+      address = "#{1 + rand(9999)} #{direction}"
+      address << " #{street_name} #{road_type}"
     end
 
     def address2
-      dwelling_type = %w(Apt Flat Lot Office Room Studio Suite)
-      "#{dwelling_type.sample} #{1 + rand(999)}"
+      dwelling_type = %w(Apt Flat Lot Office Room Studio Suite).sample
+      "#{dwelling_type} #{1 + rand(999)}"
     end
 
     def state_province
-      states = %w(AL AK AZ AR CA CO CT DC DE FL GA HI ID IL IN IA KS KY LA
-                  MA MD ME MI MN MO MS MT NE NV NH NJ NM NY NC ND OH OK OR
-                  PA RI SC SD TN TX UT VT VA WA WV WI WY)
-      states.sample
+      %w(AL AK AZ AR CA CO CT DC DE FL GA HI ID IL IN IA KS KY LA
+         MA MD ME MI MN MO MS MT NE NV NH NJ NM NY NC ND OH OK OR
+         PA RI SC SD TN TX UT VT VA WA WV WI WY).sample
+    end
+
+    def area_code
+      %w(201 203 205 206 207 208 212 213 214 215 216 217 218 219 240 301
+         302 303 304 305 307 308 312 313 314 315 316 317 318 319 401 402
+         404 405 406 407 408 409 412 413 414 415 417 419 501 502 503 504
+         505 507 508 509 512 513 515 516 518 601 602 603 605 606 607 608
+         609 612 614 615 616 617 618 701 702 703 704 706 707 708 712 713
+         714 715 716 717 718 719 801 802 803 804 805 806 808 812 813 814
+         815 816 817 818 901 904 906 907 908 910 912 913 914 915 916 917
+         918 919).sample
     end
 
     private
 
     def get_random_string(length)
       unless length.class == Fixnum && length > 0
-        raise 'Argument (length) is not a valid integer.'
+        raise ArgumentError, 'Argument (length) is not a valid integer.'
       end
       chars = ('a'..'z').to_a
       random_string = ''
