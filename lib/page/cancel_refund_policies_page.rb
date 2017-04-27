@@ -6,12 +6,17 @@ class CancelRefundPoliciesPage < BasePage
 
   # Locators
   PAGE_HEADING = { css: 'h2.pane-title' }.freeze
-  SUBHEADING = { css: 'strong' }.freeze
+  SUBHEADING = { css: 'article strong' }.freeze
+  PARAGRAPH = { css: 'article p' }.freeze
+  ICONS = { css: "[class$='-icon']" }.freeze
+  FACEBOOK_ICON = { css: '.facebook-icon' }.freeze
+  PINTEREST_ICON = { css: '.pinterest-icon' }.freeze
+  TWITTER_ICON = { css: '.twitter-icon' }.freeze
 
   def initialize(driver, nav = true)
     super(driver)
     visit PAGE_URL if nav
-    wait_for(10) { displayed? PAGE_HEADING }
+    wait_for(10) { displayed? ICONS }
   end
 
   def header_content
@@ -20,5 +25,21 @@ class CancelRefundPoliciesPage < BasePage
 
   def bold_subheading_count
     find_elements(SUBHEADING).size
+  end
+
+  def paragraph_count
+    find_elements(PARAGRAPH).size
+  end
+
+  def facebook_icon_present?
+    displayed? FACEBOOK_ICON
+  end
+
+  def pinterest_icon_present?
+    displayed? PINTEREST_ICON
+  end
+
+  def twitter_icon_present?
+    displayed? TWITTER_ICON
   end
 end
