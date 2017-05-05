@@ -25,4 +25,9 @@ class GetStartedTest < BaseTest
     assert(@get_started.submit_invalid_email(@customer.invalid_email),
            'Error message not present.')
   end
+
+  def test_error_when_empty_submit
+    assert(@get_started.submit_empty,
+           'Label error on Email field should be present.')
+  end
 end
