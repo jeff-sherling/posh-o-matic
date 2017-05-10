@@ -6,7 +6,7 @@ require_relative 'base_test'
 # Test Request New Password page
 class NewPasswordPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @new_password = NewPasswordPage.new@driver
   end
 

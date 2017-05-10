@@ -5,7 +5,7 @@ require_relative 'base_test'
 # Test Perks Rewards page
 class PerksRewardsPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @perks = PerksRewardsPage.new@driver
   end
 
