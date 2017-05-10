@@ -7,7 +7,7 @@ require 'customer'
 # Tests for /start page.
 class GetStartedTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @get_started = GetStartedPage.new(@driver)
     @customer = Customer.new
   end

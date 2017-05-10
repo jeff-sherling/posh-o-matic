@@ -8,7 +8,7 @@ require 'consultant'
 # Test for errors on Join Signup page.
 class JoinSignupStep1ErrorTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @signup1 = JoinSignupStep1.new(@driver)
     @consultant = Consultant.new
   end

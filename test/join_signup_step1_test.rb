@@ -7,7 +7,7 @@ require_relative 'base_test'
 # Test Step 1 (Your Info) of Join Signup form
 class JoinSignupStep1Test < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @signup1 = JoinSignupStep1.new(@driver)
     @consultant = Consultant.new.valid_consultant
   end

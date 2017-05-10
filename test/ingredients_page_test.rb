@@ -5,7 +5,7 @@ require 'ingredients_page'
 # Test Ingredients page
 class IngredientsPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @ingredients = IngredientsPage.new(@driver)
   end
 

@@ -5,7 +5,7 @@ require 'header'
 # Test header component
 class HeaderTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox # :safari
+    @driver = Selenium::WebDriver.for BROWSER
     @header = Header.new @driver
   end
 
