@@ -5,7 +5,7 @@ class LoginErrorPage < BasePage
   ERROR_ALERT = { css: '.messages--error' }.freeze
   LOGIN_ID_ERROR = { css: ".error[for='edit-name']" }.freeze
   PASSWORD_ERROR = { css: ".error[for='edit-pass']" }.freeze
-  ERROR = { css: '.error' }.freeze
+  ERROR = { css: '.error,.messages--error' }.freeze
 
   def initialize(driver)
     @driver = driver

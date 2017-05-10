@@ -8,7 +8,7 @@ require 'consultant'
 # Test Step 2 of Join Signup form
 class JoinSignupStep2Test < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @signup1 = JoinSignupStep1.new(@driver)
     @consultant = Consultant.new.valid_consultant
     puts @consultant
