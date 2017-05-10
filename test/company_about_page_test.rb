@@ -5,7 +5,7 @@ require 'company_about_page'
 # Test Company About page
 class CompanyAboutPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @about = CompanyAboutPage.new @driver
   end
 

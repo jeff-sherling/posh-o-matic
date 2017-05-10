@@ -5,7 +5,7 @@ require_relative 'base_test'
 # Test Cancellation and Refund Policies page
 class CancelRefundPoliciesPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @cancel = CancelRefundPoliciesPage.new @driver
   end
 
