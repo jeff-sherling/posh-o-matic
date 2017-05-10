@@ -8,7 +8,7 @@ require_relative 'base_test'
 # Test Shopping Cart (/cart) page.
 class ShoppingCartTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @product_page = ProductPage.new@driver, '/rolling-deep-chunk'
   end
 

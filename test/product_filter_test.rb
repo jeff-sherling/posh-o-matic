@@ -6,7 +6,7 @@ require_relative 'base_test'
 # Test for filter/search field on Products page
 class ProductFilterTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @filter = ProductFilter.new@driver
     @before = @filter.products_list
   end

@@ -8,7 +8,7 @@ require_relative 'base_test'
 # Test User Register page.
 class UserRegisterPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @register = UserRegisterPage.new(@driver)
     @customer = Customer.new
   end

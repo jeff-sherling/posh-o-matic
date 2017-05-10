@@ -5,7 +5,7 @@ require_relative 'base_test'
 # Test Privacy Policy page.
 class PrivacyPolicyPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @privacy_policy = PrivacyPolicyPage.new(@driver)
   end
 

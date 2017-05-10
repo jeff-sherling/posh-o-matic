@@ -5,7 +5,7 @@ require 'terms_page'
 # Test Terms & Conditions page
 class TermsPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @terms = TermsPage.new @driver
   end
 

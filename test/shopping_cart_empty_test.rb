@@ -6,7 +6,7 @@ require 'products_page'
 # Test for empty shopping cart.
 class ShoppingCartEmptyTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @shopping_cart = ShoppingCartEmpty.new(@driver)
   end
 
