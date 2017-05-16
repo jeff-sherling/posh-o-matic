@@ -10,12 +10,23 @@ class BaseTest < Minitest::Test
   Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new,
                             Minitest::Reporters::JUnitReporter.new]
 
+  # @driver = Selenium::WebDriver.for :chrome,
+  # desired_capabilities: Selenium::WebDriver::Remote::Capabilities.chrome(
+  #   'chromeOptions' => {
+  #     'args' => %w(--disable-infobars --disable-web-security)
+  #   }
+  # )
   BROWSER = :chrome
+  CAPS = Selenium::WebDriver::Remote::Capabilities.chrome(
+    'chromeOptions' => {
+      'args' => %w(--disable-infobars --disable-web-security)
+    }
+  )
 
   # Test environments
   STAGE = 'http://stage.perfectlyposh.com.c.perfectlyposh.dev.ent.platform.sh/p'.freeze
   DEV = 'https://develop-g4p7lpmywlbys.us.platform.sh/p'.freeze
-  test = 'rc5-13-7-r4z24da'
+  test = 'core-7-5-4-xw3atza'
   CLOUD = "https://#{test}-g4p7lpmywlbys.us.platform.sh/p".freeze
-  ENV['base_url'] = DEV
+  ENV['base_url'] = CLOUD
 end
