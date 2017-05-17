@@ -17,49 +17,49 @@ class ProductFilterTest < BaseTest
 
   def test_filter_by_hands_and_feet_products
     products = @filter.filter_by_hands_and_feet
-    after = products.get_products
+    after = products.products_list
     assert(@before != after,
            'Products displayed before and after filtering should differ.')
   end
 
   def test_filter_by_face_and_lips_products
     products = @filter.filter_by_body
-    after = products.get_products
+    after = products.products_list
     assert(@before != after,
            'Products displayed before and after filtering should differ.')
   end
 
   def test_filter_by_body_products
     products = @filter.filter_by_body
-    after = products.get_products
+    after = products.products_list
     assert(@before != after,
            'Products displayed before and after filtering should differ.')
   end
 
   def test_filter_by_hair_products
     products = @filter.filter_by_hair
-    after = products.get_products
+    after = products.products_list
     assert(@before != after,
            'Products displayed before and after filtering should differ.')
   end
 
   def test_filter_by_bath_products
     products = @filter.filter_checkbox
-    after = products.get_products
+    after = products.products_list
     assert(@before != after,
            'Products displayed before and after filtering should differ.')
   end
 
   def test_search_for_chunk
     products = @filter.search_for_product
-    after = products.get_products
+    after = products.products_list
     assert(@before != after,
            'Products displayed before and after filtering should differ.')
   end
 
   def test_search_for_lip_balm
     products = @filter.search_for_product('lip balm')
-    after = products.get_products
+    after = products.products_list
     assert(@before != after,
            'Products displayed before and after filtering should differ.')
   end
