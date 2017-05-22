@@ -31,4 +31,8 @@ class ProductsPage < BasePage
   def collection_title
     text_of COLLECTION_TITLE
   end
+
+  def collection_title_present?
+    displayed? COLLECTION_TITLE
+  end
 end
