@@ -29,8 +29,10 @@ class ProductsPage < BasePage
   end
 
   def collection_title
-    text_of COLLECTION_TITLE
+    text_of COLLECTION_TITLE if collection_title_present?
   end
+
+  private
 
   def collection_title_present?
     displayed? COLLECTION_TITLE
