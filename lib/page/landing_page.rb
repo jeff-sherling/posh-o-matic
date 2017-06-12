@@ -9,7 +9,7 @@ class LandingPage < BasePage
   PUBLIC_LANDING = { css: '.front.not-logged-in' }.freeze
   PRIVATE_LANDING = { css: '.front.logged-in' }.freeze
 
-  REGISTRATION_SUCCESSFUL_ALERT = { css: '.messages.messages--status' }.freeze
+  SUCCESS_ALERT = { css: '.messages.messages--status' }.freeze
 
   def initialize(driver, nav = true)
     super(driver)
@@ -27,7 +27,8 @@ class LandingPage < BasePage
     wait_for { displayed? PRIVATE_LANDING }
   end
 
+  # User registration and navigating to /checkout w/ empty cart
   def success_alert_present?
-    displayed? REGISTRATION_SUCCESSFUL_ALERT
+    displayed? SUCCESS_ALERT
   end
 end
