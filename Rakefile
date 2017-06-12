@@ -16,7 +16,6 @@ namespace 'selenium' do
              'test/join_page_test.rb',
              'test/join_signup_step1_error_test.rb',
              'test/join_signup_step1_test.rb',
-             'test/join_signup_step2_error_test.rb',
              'test/join_signup_step2_test.rb',
              'test/login_error_test.rb',
              'test/login_test.rb',
@@ -38,8 +37,17 @@ namespace 'selenium' do
              'test/footer_social_test.rb',
              'test/footer_sub_menu_test.rb',
              'test/header_test.rb',
+             'test/header_products_test.rb',
+             'test/header_collections_test.rb',
              'test/user_bar_test.rb'].each do |file|
       puts "Running test file #{file}..."
+      ruby file
+    end
+  end
+
+  desc 'Run single test'
+  task :single do
+    FileList['test/footer_social_test.rb'].each do |file|
       ruby file
     end
   end
