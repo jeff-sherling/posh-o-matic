@@ -5,7 +5,7 @@ require_relative 'base_test'
 # Test Login page.
 class LoginTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @login_page = LoginPage.new(@driver)
   end
 

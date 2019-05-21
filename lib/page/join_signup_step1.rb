@@ -44,13 +44,13 @@ class JoinSignupStep1 < BasePage
   def submit_valid(info)
     populate_form(info)
     click_on CONTINUE_BTN
-    JoinSignupStep2.new(driver)
+    JoinSignupStep2.new @driver, info
   end
 
   def submit_error(info = {})
     populate_form(info) unless info.empty?
     click_on CONTINUE_BTN
-    JoinSignupStep1Error.new(@driver)
+    JoinSignupStep1Error.new@driver
   end
 
   def phone_password_error(info = {})
@@ -65,7 +65,7 @@ class JoinSignupStep1 < BasePage
   end
 
   def passwords_match?(info)
-    populate_form(info)
+    populate_form info
     if displayed? PASSWORDS_MATCH_YES
       true
     elsif displayed? PASSWORDS_MATCH_NO
@@ -73,10 +73,6 @@ class JoinSignupStep1 < BasePage
     else
       false
     end
-  end
-
-  def signin_modal_present?
-    wait_for(5) { displayed?(SIGN_IN_MODAL) }
   end
 
   private

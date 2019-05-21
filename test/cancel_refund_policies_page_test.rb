@@ -2,9 +2,10 @@ $LOAD_PATH.push 'lib/page'
 require 'cancel_refund_policies_page'
 require_relative 'base_test'
 
+# Test Cancellation and Refund Policies page
 class CancelRefundPoliciesPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @cancel = CancelRefundPoliciesPage.new @driver
   end
 
@@ -23,8 +24,19 @@ class CancelRefundPoliciesPageTest < BaseTest
                  'Header should be Cancellation and Refund Policies.')
   end
 
-  def test_subheading_count
+  def test_subheadings_count
     assert_equal(@cancel.bold_subheading_count, 3,
                  'Should be 3 subheadings.')
+  end
+
+  def test_paragraph_count
+    assert(@cancel.paragraph_count > 17, 'Should be 18 paragraphs.')
+  end
+
+  def test_share_social_icons_present
+    assert(@cancel.facebook_icon_present? &&
+               @cancel.pinterest_icon_present? &&
+               @cancel.twitter_icon_present?,
+           'Facebook, Pinterest, and Twitter icons should be present.')
   end
 end

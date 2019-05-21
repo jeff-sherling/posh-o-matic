@@ -5,7 +5,7 @@ require 'join_page'
 # Join page tests.
 class JoinPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @join = JoinPage.new(@driver)
   end
 

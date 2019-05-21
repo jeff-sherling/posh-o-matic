@@ -5,7 +5,7 @@ require 'footer_main_menu'
 # Test for main footer.
 class FooterMainMenuTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @footer = FooterMainMenu.new(@driver)
   end
 

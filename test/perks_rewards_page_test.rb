@@ -5,7 +5,7 @@ require_relative 'base_test'
 # Test Perks Rewards page
 class PerksRewardsPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @perks = PerksRewardsPage.new@driver
   end
 
@@ -29,7 +29,7 @@ class PerksRewardsPageTest < BaseTest
 
   def test_enroll_btn_links_to_get_started_page
     get_started = @perks.click_get_started
-    assert(get_started.email_box_present?,
+    assert(get_started.page_title.include?('Get Started'),
            'Email box should be present on Get Started page.')
   end
 end

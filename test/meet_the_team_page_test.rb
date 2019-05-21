@@ -5,7 +5,7 @@ require 'meet_the_team_page'
 # Test Meet the Team page
 class MeetTheTeamPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @meet = MeetTheTeamPage.new @driver
   end
 

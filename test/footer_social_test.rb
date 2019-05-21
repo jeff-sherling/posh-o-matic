@@ -5,7 +5,7 @@ require 'footer_social'
 # Test social block in footer
 class FooterSocialTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @social = FooterSocial.new @driver
   end
 

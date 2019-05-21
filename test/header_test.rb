@@ -5,7 +5,7 @@ require 'header'
 # Test header component
 class HeaderTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox # :safari
+    @driver = Selenium::WebDriver.for BROWSER
     @header = Header.new @driver
   end
 
@@ -20,13 +20,13 @@ class HeaderTest < BaseTest
 
   def test_products_link_redirects_correctly
     products = @header.click_products_link
-    assert_equal(24, products.get_product_count,
+    assert_equal(24, products.product_count,
                  'Should be 24 products on page.')
   end
 
   def test_collections_link_redirects_correctly
     collections = @header.click_collections_link
-    assert_equal(24, collections.get_product_count,
+    assert_equal(24, collections.product_count,
                  'Should be 24 products on page.')
   end
 

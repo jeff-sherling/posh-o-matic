@@ -12,40 +12,43 @@ class GetStartedPage < BasePage
   SIGN_UP = { id: 'edit-submit' }.freeze
 
   def initialize(driver, nav = true)
-    super(driver)
+    super driver
     visit PAGE_URL if nav
     wait_for { displayed?EMAIL_BOX }
   end
 
   def submit_valid_email(email)
-    submit_email(email)
-    success_present?
+    submit_email email
+    success_alert_present?
   end
 
   def submit_invalid_email(email)
-    submit_email(email)
-    error_present?
+    submit_email email
+    error_alert_present?
   end
 
-  def email_box_present?
-    wait_for(5) { displayed? EMAIL_BOX }
+  def submit_empty
+    submit_email
+    error_label_present?
   end
 
   private
 
   def submit_email(email = {})
-    raise ArgumentError 'Hash requires email.' if email.class != Hash ||
-                                                  email.empty?
     clear(EMAIL_BOX)
-    type(EMAIL_BOX, email[:email])
+    type(EMAIL_BOX, email[:email]) unless email[:email].nil?
     click_on(SIGN_UP)
   end
 
-  def error_present?
-    wait_for(5) { displayed?(ERROR_ALERT) }
+  def error_alert_present?
+    wait_for(5) { displayed?ERROR_ALERT }
   end
 
-  def success_present?
-    wait_for(5) { displayed?(SUCCESS_ALERT) }
+  def error_label_present?
+    wait_for(5) { displayed? EMAIL_BOX_ERROR }
+  end
+
+  def success_alert_present?
+    wait_for(5) { displayed?SUCCESS_ALERT }
   end
 end

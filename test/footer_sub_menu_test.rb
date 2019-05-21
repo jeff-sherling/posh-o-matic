@@ -5,7 +5,7 @@ require_relative 'base_test'
 # Test footer components: Careers, Terms, Privacy, Copyright.
 class FooterSubMenuTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @sub_menu = FooterSubMenu.new@driver
   end
 

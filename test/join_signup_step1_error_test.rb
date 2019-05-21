@@ -8,7 +8,7 @@ require 'consultant'
 # Test for errors on Join Signup page.
 class JoinSignupStep1ErrorTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @signup1 = JoinSignupStep1.new(@driver)
     @consultant = Consultant.new
   end
@@ -60,15 +60,15 @@ class JoinSignupStep1ErrorTest < BaseTest
   end
 
   def test_phone_number_with_dashes_error
-    basic = @consultant.basic
-    basic[:phone] = '213-231-3425'
+    basic = @consultant.valid_consultant
+    basic[:phone] = '213-641-3985'
     error = @signup1.submit_error basic
     assert(error.phone_error_present?, 'Should be Phone Number field error.')
   end
 
   def test_ssn_with_dashes_error
-    basic = @consultant.basic
-    basic[:ssn] = '213-23-3425'
+    basic = @consultant.valid_consultant
+    basic[:ssn] = '873-67-1425'
     error = @signup1.submit_error basic
     assert(error.ssn_error_present?, 'Should be SSN field error.')
   end

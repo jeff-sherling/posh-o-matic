@@ -34,4 +34,10 @@ class UserFactoryAddressTest < Minitest::Test
     Console.log.info "State: #{state}"
     assert(state.size == 2, 'State should be two-letter abbreviation.')
   end
+
+  def test_zip_code
+    zip = UserFactory.zip_code
+    Console.log.info "Zip: #{zip}"
+    assert(zip.size == 5, 'Zip code should be 5 characters long.')
+  end
 end

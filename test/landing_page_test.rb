@@ -6,7 +6,7 @@ require 'login_page'
 # Test Landing (/) page
 class LandingPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
   end
 
   def teardown

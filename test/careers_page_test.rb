@@ -5,7 +5,7 @@ require 'careers_page'
 # Test Careers page
 class CareersPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @careers = CareersPage.new @driver
   end
 

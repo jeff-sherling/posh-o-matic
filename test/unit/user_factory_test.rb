@@ -23,13 +23,13 @@ class UserFactoryTest < Minitest::Test
   end
 
   def test_name_argument_error_when_zero
-    assert_raises(RuntimeError, 'Fixnum should be > 0.') do
+    assert_raises(ArgumentError, 'Fixnum should be > 0.') do
       UserFactory.get_name 0
     end
   end
 
   def test_name_argument_error_when_string
-    assert_raises(RuntimeError, 'Argument should be a Fixnum.') do
+    assert_raises(ArgumentError, 'Argument should be a Fixnum.') do
       UserFactory.get_name 'a'
     end
   end
@@ -102,12 +102,6 @@ class UserFactoryTest < Minitest::Test
     Console.log.info "Minor date: #{date}"
     assert(date.include?('12/31/') && date.size == 10,
            'Date should be 10 characters long.')
-  end
-
-  def test_zip_code
-    zip = UserFactory.zip_code
-    Console.log.info "Zip: #{zip}"
-    assert(zip.size == 5, 'Zip code should be 5 characters long.')
   end
 
   def test_ssn

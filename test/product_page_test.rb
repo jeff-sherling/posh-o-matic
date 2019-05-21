@@ -6,7 +6,7 @@ require_relative 'base_test'
 # Test Product page (e.g., /full-moon-chunk).
 class ProductPageTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @product = ProductPage.new(@driver, '/rolling-deep-chunk')
   end
 

@@ -5,7 +5,7 @@ require 'user_bar'
 # Test User bar
 class UserBarTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @user = UserBar.new @driver
   end
 

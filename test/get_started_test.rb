@@ -7,7 +7,7 @@ require 'customer'
 # Tests for /start page.
 class GetStartedTest < BaseTest
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for BROWSER
     @get_started = GetStartedPage.new(@driver)
     @customer = Customer.new
   end
@@ -24,5 +24,10 @@ class GetStartedTest < BaseTest
   def test_error_with_invalid_email
     assert(@get_started.submit_invalid_email(@customer.invalid_email),
            'Error message not present.')
+  end
+
+  def test_error_when_empty_submit
+    assert(@get_started.submit_empty,
+           'Label error on Email field should be present.')
   end
 end
