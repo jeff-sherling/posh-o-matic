@@ -1,15 +1,14 @@
 require 'base_page'
 require 'user_bar'
-require 'login_error_page'
 
 # Login (/) page
 class LoginPage < BasePage
   # locators
   LOGIN_ID_BOX = { css: "input.gigya-input-text[name='username']" }.freeze
-  LOGIN_ID_ERROR = { css: "" }.freeze
+  LOGIN_ERROR = { css: ".gigya-error-msg[data-bound-to='loginID']" }.freeze
 
   PASSWORD_BOX = { css: "input.gigya-input-password[name='password']" }.freeze
-  PASSWORD_ERROR = { css: "" }.freeze
+  PASSWORD_ERROR = { css: ".gigya-error-msg[data-bound-to='password']" }.freeze
 
   LOGIN_BUTTON = { css: 'input.gigya-input-submit' }.freeze
 
@@ -29,6 +28,11 @@ class LoginPage < BasePage
 
   def error_login(username = 'tttttt', password = '999999')
     login_with username, password
+    LoginErrorPage.new @driver
+  end
+
+  def no_entry_login
+    click_on LOGIN_BUTTON
     LoginErrorPage.new @driver
   end
 
