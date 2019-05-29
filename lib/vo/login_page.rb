@@ -12,6 +12,7 @@ class LoginPage < BasePage
 
   LOGIN_BUTTON = { css: 'input.gigya-input-submit' }.freeze
 
+  # TODO: Verify if this is present for all errors on this page
   STATUS_ALERT = { css: 'div.gigya-error-msg.gigya-form-error-msg' }.freeze
   FORGOT_PASSWORD = { css: "a.posh-forgot-password" }.freeze
   REMEMBER_ME = { css: "input.gigya-input-checkbox[name='remember']" }.freeze
@@ -23,6 +24,7 @@ class LoginPage < BasePage
 
   def valid_login(username, password)
     login_with username, password
+    # TODO: verify this can be, or is, returned
     UserBar.new @driver
   end
 
@@ -33,6 +35,7 @@ class LoginPage < BasePage
 
   def no_entry_login
     click_on LOGIN_BUTTON
+    # TODO: verify if this is returned or not
     LoginErrorPage.new @driver
   end
 
