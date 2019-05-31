@@ -1,64 +1,30 @@
 require 'base_page'
+require_relative 'user_bar'
+require_relative 'admin_menu'
 
 # Admin menu component
 class SummaryPage < BasePage
-  PAGE_URL = '/'.freeze
-
-  # Selector strings
-  posh_team_submenu = "#block-menu-menu-about-menu a[href$='/meettheteam']"
+  PAGE_URL = '/vo'.freeze
 
   # Static Menu Locators
-  HOME_LOGO = { css: '#admin-menu-icon a.active-trail' }.freeze
-  ORDERS = { css: "#admin-menu-menu a[href='/admin/posh_orders/search']" }.freeze
-  CONSULTANT_TAX_INFO = { css: '' }.freeze
-  DASHBOARD = { css: '' }.freeze
-  LOG_OUT = { css: '' }.freeze
+  TITLE = { css: 'h1.node-title' }.freeze
+  YEAR_FILTER = { css: "select[name='sales_year']" }.freeze
+  MONTH_FILTER = { css: "select[name='sales_month']" }.freeze
+  APPLY_BTN = { css: '.form-item button.btn' }.freeze
 
-  # Expandable menu locators
-  CSR_MANAGER = { css: '' }.freeze
-  CONTENT = { css: '' }.freeze
-  STRUCTURE = { css: '' }.freeze
-  APPEARANCE = { css: '' }.freeze
-  PEOPLE = { css: '' }.freeze
-  MODULES = { css: '' }.freeze
-  CONFIGURATION = { css: '' }.freeze
-  REPORTS = { css: '' }.freeze
-  ISR_MANAGER = { css: '' }.freeze
-
-  # Other locators
-  SEARCH_BOX = { id: 'edit-search-api-views-fulltext' }.freeze
-  SEARCH_BTN = { id: 'edit-submit-solr-search' }.freeze
+  SUMMARY_CHART_LEGEND = { css: '#chart-legend' }.freeze
+  MY_GOALS_WIDGET = { css: '.vo-widget--my-goals' }.freeze
+  LATEST_ORDERS_WIDGET = { css: '.vo-widget--latest-orders' }.freeze
+  NEW_TO_TEAM_WIDGET = { css: '.vo-widget--new-consultants' }.freeze
+  COMMISSIONS_WIDGET = { css: '.vo-widget--commissions' }.freeze
 
   def initialize(driver, nav = true)
     super(driver)
     visit PAGE_URL if nav
-    wait_for { displayed? HOME_LOGO }
-  end
-
-  def click_home_logo
-    click_on POSH_LOGO
-    # ?? LandingPage.new @driver, false
-  end
-
-  def products_submenu_visible?
-    submenu_visible? PRODUCTS_LINK
-  end
-
-  def collections_submenu_visible?
-    submenu_visible? COLLECTIONS_LINK
-  end
-
-  def about_submenu_visible?
-    submenu_visible? ABOUT_LINK
+    wait_for { displayed? SUMMARY_CHART_LEGEND}
   end
 
   private
-
-    def submenu_visible?(locator)
-      hover find locator
-      enabled? SUBMENU
-    end
-
     def click_submenu(menu, submenu_item)
       hover find menu
       click_on submenu_item

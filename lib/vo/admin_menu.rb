@@ -38,7 +38,7 @@ class AdminMenu < BasePage
 
   def click_home_logo
     click_on POSH_LOGO
-    # ?? LandingPage.new @driver, false
+    SummaryPage.new @driver
   end
 
   def products_submenu_visible?
