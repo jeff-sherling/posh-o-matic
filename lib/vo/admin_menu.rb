@@ -26,10 +26,6 @@ class AdminMenu < BasePage
   REPORTS = { css: '' }.freeze
   ISR_MANAGER = { css: '' }.freeze
 
-  # Other locators
-  SEARCH_BOX = { id: 'edit-search-api-views-fulltext' }.freeze
-  SEARCH_BTN = { id: 'edit-submit-solr-search' }.freeze
-
   def initialize(driver, nav = true)
     super(driver)
     visit PAGE_URL if nav
@@ -37,31 +33,7 @@ class AdminMenu < BasePage
   end
 
   def click_home_logo
-    click_on POSH_LOGO
+    click_on HOME_LOGO
     SummaryPage.new @driver
   end
-
-  def products_submenu_visible?
-    submenu_visible? PRODUCTS_LINK
-  end
-
-  def collections_submenu_visible?
-    submenu_visible? COLLECTIONS_LINK
-  end
-
-  def about_submenu_visible?
-    submenu_visible? ABOUT_LINK
-  end
-
-  private
-
-    def submenu_visible?(locator)
-      hover find locator
-      enabled? SUBMENU
-    end
-
-    def click_submenu(menu, submenu_item)
-      hover find menu
-      click_on submenu_item
-    end
 end

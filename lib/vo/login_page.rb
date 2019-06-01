@@ -1,5 +1,6 @@
 require 'base_page'
 require 'user_bar'
+require_relative 'summary_page'
 
 # Login (/) page
 class LoginPage < BasePage
@@ -25,7 +26,7 @@ class LoginPage < BasePage
   def valid_login(username, password)
     login_with username, password
     # TODO: verify this can be, or is, returned
-    UserBar.new @driver
+    SummaryPage.new @driver
   end
 
   def error_login(username = 'tttttt', password = '999999')
