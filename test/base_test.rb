@@ -24,9 +24,9 @@ class BaseTest < Minitest::Test
   )
 
   # Test environments
-  STAGE = 'http://stage.perfectlyposh.com.c.perfectlyposh.dev.ent.platform.sh/p'.freeze
-  DEV = 'https://develop-g4p7lpmywlbys.us.platform.sh/p'.freeze
+  STAGE = 'http://stage.perfectlyposh.com.c.perfectlyposh.dev.ent.platform.sh'.freeze
+  DEV = 'https://develop-g4p7lpmywlbys.us.platform.sh/'.freeze
   test = 'core-7-5-4-xw3atza'
-  CLOUD = "https://#{test}-g4p7lpmywlbys.us.platform.sh/p".freeze
-  ENV['base_url'] = CLOUD
+  CLOUD = "https://#{test}-g4p7lpmywlbys.us.platform.sh".freeze
+  ENV['base_url'] = DEV
 end
