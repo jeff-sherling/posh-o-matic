@@ -1,5 +1,4 @@
 require 'base_page'
-require 'user_bar'
 require_relative 'summary_page'
 
 # Login (/) page
