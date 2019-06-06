@@ -24,6 +24,10 @@ class SummaryPage < BasePage
     wait_for { displayed? SUMMARY_CHART_LEGEND}
   end
 
+  def orders_widget_present?
+    find_element LATEST_ORDERS_WIDGET
+  end
+
   private
     def click_submenu(menu, submenu_item)
       hover find menu
